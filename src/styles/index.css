@@ -1,0 +1,35 @@
+:root {
+  --primary-color: rgb(22, 105, 122);
+  --border-color: rgb(19, 91, 105);
+  --bg-color: rgb(130, 192, 204);
+}
+
+.loginContainer {
+  background-color: var(--bg-color);
+}
+
+.navbarBg {
+  background-color: var(--bg-color) !important;
+}
+
+.btn-primary {
+  background-color: var(--primary-color) !important;
+  border-color: var(--border-color) !important;
+}
+
+/* Oculta los botones de incremento y decremento en navegadores que los muestran */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield; /* Firefox */
+}
+
+/* Swal styles */
+div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
+  background-color: var(--primary-color) !important;
+  border-color: var(--border-color) !important;
+}
