@@ -2,10 +2,34 @@ import { axiosApi } from "../../../config/api/axiosConfig";
 import { LoginDTO } from "../../../interfaces/DTOS/LoginDTO";
 import { LoginRecibeDTO } from "../../../interfaces/DTOS/LoginRecibeDTO";
 import { RegisterDTO } from "../../../interfaces/DTOS/RegisterDTO";
+import { Cuenta } from "../../../interfaces/models/Cuenta";
 import { Usuario } from "../../../interfaces/models/Usuario";
 
+const staticUser: Usuario = {
+  id: 99,
+  nombres: "TestGuy",
+  apellido1: "Lopez",
+  apellido2: "Lopez",
+  correo: "test@test.com",
+  fechaNacimiento: "09-09-2009",
+}
+
+const staticAcount: Cuenta = {
+  id: 99,
+  numeroCuenta: "9999",
+  RFID: "",
+  saldo: 99,
+}
+
 export function useAuth() {
+
   const loginUser = async (loginDTO: LoginDTO): Promise<LoginRecibeDTO | null> => {
+
+    if(loginDTO.correo == staticUser.correo && loginDTO.password == "test"){
+      const LoginResopnses: LoginRecibeDTO = {UserData: staticUser, CuentaData: staticAcount}
+      return LoginResopnses;
+    }
+
     const userResponse = await axiosApi
       .post<Usuario>("/Usuario/login", loginDTO)
       .then((response) => {

@@ -7,6 +7,7 @@ interface Props {
     fieldName: keyof LoginDTO
   ) => (changeEvent: React.ChangeEvent<HTMLInputElement>) => void;
   inputNameValue: keyof LoginDTO;
+  isError: boolean;
   leftAddonIcon?: string;
   rightAddonIcon?: string;
 }
@@ -18,6 +19,7 @@ function LoginInput({
   inputNameValue,
   leftAddonIcon,
   rightAddonIcon,
+  isError,
 }: Props) {
   return (
     <>
@@ -34,7 +36,7 @@ function LoginInput({
 
         <input
           type={inputType}
-          className="form-control"
+          className={`form-control ${isError ? "is-invalid" : ""}`}
           id={inputType}
           aria-describedby={inputType}
           onChange={handleOnChange(inputNameValue)}

@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { RegisterDTO } from "../../interfaces/DTOS/RegisterDTO";
 import { Link, useNavigate } from "react-router-dom";
 import RegisterInput from "./components/RegisterInput";
@@ -8,6 +8,15 @@ import Swal from "sweetalert2";
 import { useAuth } from "./hooks/useAuth";
 import { AuthContext } from "../../context/AuthContext";
 
+export interface RegisterErrors {
+  Correo: boolean,
+  Password: boolean,
+  Apellido1: boolean,
+  Apellido2: boolean,
+  Nombres: boolean,
+  FechaNacimiento: boolean,
+}
+
 function RegisterPage() {
   const authContext = useContext(AuthContext);
   if (authContext == undefined) return <h1>Tas mal con el context pa</h1>;
@@ -16,22 +25,55 @@ function RegisterPage() {
   const mySwal = withReactContent(Swal);
   const { registerUser } = useAuth();
   const { login } = authContext;
+  const isEmpty = useRef(false);
+
+  const [formValues, setFormValues] = useState<RegisterDTO>({
+    Correo: "",
+    Password: "",
+    Apellido1: "",
+    Apellido2: "",
+    Nombres: "",
+    FechaNacimiento: "",
+  });
+
+  const [formErrors, setFormErrors] = useState<RegisterErrors>({
+    Correo: false,
+    Password: false,
+    Apellido1: false,
+    Apellido2: false,
+    Nombres: false,
+    FechaNacimiento: false,
+  });
+
+  const [isVisible, setIsVisible] = useState(false);
 
   const verifyRegisterForm = (): boolean => {
 
     let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
     // Valida si hay un campo vacío
     for (let key in formValues) {
       if (formValues.hasOwnProperty(key)) {
-        if (formValues[key as keyof RegisterDTO].length <= 0) {
+        if (formValues[key as keyof RegisterDTO].length <= 0) { // ~ esta vacío
           mySwal.fire({
-            title: "No puede haber un campo vacío",
+            title: "No puede haber ningún campo vacío",
             icon: "error",
           });
-          return false;
+          isEmpty.current = true;setFormErrors((prevErrors) => ({
+            ...prevErrors,
+            [key]: true, // Marca el campo como con error
+          }));
+        } else { // ~ tiene contenido
+          setFormErrors((prevErrors) => ({
+            ...prevErrors,
+            [key]: false, // Marca el campo como con error
+          }));
         }
       }
+    }
+    if(isEmpty.current){
+      return false;
+    } else {
+
     }
 
     if (!emailPattern.test(formValues.Correo)) {
@@ -39,6 +81,10 @@ function RegisterPage() {
         title: "Verifica la sintaxys de tu correo",
         icon: "error",
       });
+      setFormErrors((prevErrors) => ({
+        ...prevErrors,
+        Correo: true, // Marca el campo de correo como con error
+      }));
       return false;
     }
 
@@ -71,15 +117,6 @@ function RegisterPage() {
     }
   };
 
-  const [formValues, setFormValues] = useState<RegisterDTO>({
-    Correo: "",
-    Password: "",
-    Apellido1: "",
-    Apellido2: "",
-    Nombres: "",
-    FechaNacimiento: "",
-  });
-
   const handleOnChange =
     (fieldName: keyof RegisterDTO) =>
     (changeEvent: React.ChangeEvent<HTMLInputElement>) => {
@@ -96,6 +133,8 @@ function RegisterPage() {
             handleOnChange={handleOnChange}
             inputType="input"
             leftAddonIcon="bi bi-person-fill"
+            isError={formErrors.Nombres}
+            isHidden={!isVisible}
           />
         </div>
 
@@ -106,6 +145,8 @@ function RegisterPage() {
             handleOnChange={handleOnChange}
             inputType="input"
             leftAddonIcon="bi bi-person-fill"
+            isError={formErrors.Apellido1}
+            isHidden={!isVisible}
           />
         </div>
 
@@ -116,6 +157,8 @@ function RegisterPage() {
             handleOnChange={handleOnChange}
             inputType="input"
             leftAddonIcon="bi bi-person-fill"
+            isError={formErrors.Apellido2}
+            isHidden={!isVisible}
           />
         </div>
 
@@ -126,6 +169,7 @@ function RegisterPage() {
             handleOnChange={handleOnChange}
             inputType="email"
             leftAddonIcon="bi bi-envelope"
+            isError={formErrors.Correo}
           />
         </div>
 
@@ -136,6 +180,7 @@ function RegisterPage() {
             handleOnChange={handleOnChange}
             inputType="password"
             leftAddonIcon="bi bi-lock"
+            isError={formErrors.Password}
           />
         </div>
 
@@ -146,6 +191,7 @@ function RegisterPage() {
             inputTitle="Fecha de nacimiento"
             inputType="date"
             leftAddonIcon="bi bi-calendar"
+            isError={formErrors.FechaNacimiento}
           />
         </div>
 

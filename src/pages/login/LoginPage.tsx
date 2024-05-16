@@ -9,6 +9,11 @@ import AuthContainer from "./components/AuthContainer";
 import LoginInput from "./components/LoginInput";
 import { LoginRecibeDTO } from "../../interfaces/DTOS/LoginRecibeDTO";
 
+export interface LoginErrors {
+  correo: boolean;
+  password: boolean;
+}
+
 function LoginPage() {
   const authContext = useContext(AuthContext);
   if (authContext == undefined) return <h1>Tas mal con el context pa</h1>;
@@ -23,14 +28,28 @@ function LoginPage() {
     password: "",
   });
 
+  const [formErrors, setFormErrors] = useState<LoginErrors>({
+    correo: false,
+    password: false,
+  });
+
   const validateLoginForm = (): boolean => {
     let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-    if(formValues.correo == "" || formValues.password == ""){
+    if (formValues.correo == "" || formValues.password == "") {
       mySwal.fire({
-        title: "No pueden haber campos vacíos",
+        title: "No puede haber ningún campo vacío",
         icon: "error",
       });
+
+      if(formValues.correo == ""){
+        setFormErrors({ ...formErrors, correo: true, password: false });
+      }
+
+      if(formValues.password == ""){
+        setFormErrors({ ...formErrors, password: true });
+      }
+      
       return false;
     }
 
@@ -39,6 +58,7 @@ function LoginPage() {
         title: "Verifica la sintaxys de tu correo",
         icon: "error",
       });
+      setFormErrors({ ...formErrors, correo: true, password: false });
       return false;
     }
 
@@ -46,9 +66,8 @@ function LoginPage() {
   };
 
   const handleLogin = async () => {
-    if (!validateLoginForm())
-      return;
-    
+    if (!validateLoginForm()) return;
+    else setFormErrors({ ...formErrors, correo: false, password: false });
 
     mySwal.fire({
       // Login swal
@@ -90,6 +109,7 @@ function LoginPage() {
             inputTitle="Correo electrónico"
             inputType="email"
             leftAddonIcon="bi bi-envelope"
+            isError={formErrors.correo}
           />
         </div>
         <div className="mb-3">
@@ -99,6 +119,7 @@ function LoginPage() {
             inputTitle="Contraseña"
             inputType="password"
             leftAddonIcon="bi bi-lock"
+            isError={formErrors.password}
           />
         </div>
 

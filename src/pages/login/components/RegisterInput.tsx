@@ -8,6 +8,8 @@ interface Props {
     fieldName: keyof RegisterDTO
   ) => (changeEvent: React.ChangeEvent<HTMLInputElement>) => void;
   inputNameValue: keyof RegisterDTO;
+  isError: boolean;
+  isHidden: boolean;
   leftAddonIcon?: string;
   rightAddonIcon?: string;
 }
@@ -19,9 +21,11 @@ function RegisterInput({
   inputNameValue,
   leftAddonIcon,
   rightAddonIcon,
+  isError,
+  isHidden,
 }: Props) {
   return (
-    <>
+    <div hidden={isHidden}>
       <label htmlFor={inputType} className="form-label">
         {inputTitle}
       </label>
@@ -34,10 +38,11 @@ function RegisterInput({
 
         <input
           type={inputType}
-          className="form-control"
-          id={inputType}
-          aria-describedby={inputType}
+          className={`form-control ${isError ? "is-invalid" : ""}`}
+          id={inputNameValue}
+          aria-describedby={inputNameValue}
           onChange={handleOnChange(inputNameValue)}
+          
         />
         {rightAddonIcon ? (
           <span className="input-group-text" id="rightAddon">
@@ -45,7 +50,7 @@ function RegisterInput({
           </span>
         ) : null}
       </div>
-    </>
+    </div>
   );
 }
 
