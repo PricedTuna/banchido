@@ -10,7 +10,7 @@ function AuthContainer({children}: PropsWithChildren) {
         className="container px-2 py-4 loginContainer rounded shadow-lg"
         style={{ maxWidth: "40rem" }}
       >
-        <h1 className="text-center mb-2">Banchido</h1>
+        <h1 className="text-center mb-4">Banchido</h1>
 
         {children}
 

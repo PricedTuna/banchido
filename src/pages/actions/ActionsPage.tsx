@@ -8,8 +8,8 @@ function ActionsPage() {
       <div className="d-grid gap-2 col-6-md mx-auto">
         <ActionButton page="transfer" title="Transferencia" />
         <ActionButton page="RST" title="Retiro sin tarjeta" />
-        <ActionButton page="edit-profile" title="Agregar una tarjeta a mi cuenta" />
-        <ActionButton page="add-card" title="Editar perfil" />
+        <ActionButton page="add-card" title="Agregar una tarjeta a mi cuenta" />
+        <ActionButton page="edit-profile" title="Editar perfil" />
       </div>
     </ActionsPageWrapper>
   );

@@ -7,14 +7,15 @@ import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import { useAuth } from "./hooks/useAuth";
 import { AuthContext } from "../../context/AuthContext";
+import { MagicMotion } from "react-magic-motion";
 
 export interface RegisterErrors {
-  Correo: boolean,
-  Password: boolean,
-  Apellido1: boolean,
-  Apellido2: boolean,
-  Nombres: boolean,
-  FechaNacimiento: boolean,
+  Correo: boolean;
+  Password: boolean;
+  Apellido1: boolean;
+  Apellido2: boolean;
+  Nombres: boolean;
+  FechaNacimiento: boolean;
 }
 
 function RegisterPage() {
@@ -48,21 +49,23 @@ function RegisterPage() {
   const [isVisible, setIsVisible] = useState(false);
 
   const verifyRegisterForm = (): boolean => {
-
     let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     // Valida si hay un campo vacío
     for (let key in formValues) {
       if (formValues.hasOwnProperty(key)) {
-        if (formValues[key as keyof RegisterDTO].length <= 0) { // ~ esta vacío
+        if (formValues[key as keyof RegisterDTO].length <= 0) {
+          // ~ esta vacío
           mySwal.fire({
             title: "No puede haber ningún campo vacío",
             icon: "error",
           });
-          isEmpty.current = true;setFormErrors((prevErrors) => ({
+          isEmpty.current = true;
+          setFormErrors((prevErrors) => ({
             ...prevErrors,
             [key]: true, // Marca el campo como con error
           }));
-        } else { // ~ tiene contenido
+        } else {
+          // ~ tiene contenido
           setFormErrors((prevErrors) => ({
             ...prevErrors,
             [key]: false, // Marca el campo como con error
@@ -70,10 +73,9 @@ function RegisterPage() {
         }
       }
     }
-    if(isEmpty.current){
+    if (isEmpty.current) {
       return false;
     } else {
-
     }
 
     if (!emailPattern.test(formValues.Correo)) {
@@ -125,89 +127,104 @@ function RegisterPage() {
 
   return (
     <AuthContainer>
-      <div className="container d-flex flex-column">
-        <div className="mb-3">
-          <RegisterInput
-            inputNameValue="Nombres"
-            inputTitle="Nombres"
-            handleOnChange={handleOnChange}
-            inputType="input"
-            leftAddonIcon="bi bi-person-fill"
-            isError={formErrors.Nombres}
-            isHidden={!isVisible}
-          />
-        </div>
+      <MagicMotion>
+        <div className="container d-flex flex-column">
+          <div>
+            <RegisterInput
+              inputNameValue="Nombres"
+              inputTitle="Nombres"
+              handleOnChange={handleOnChange}
+              inputType="input"
+              leftAddonIcon="bi bi-person-fill"
+              isError={formErrors.Nombres}
+              isHidden={!isVisible}
+            />
+          </div>
 
-        <div className="mb-3">
-          <RegisterInput
-            inputNameValue="Apellido1"
-            inputTitle="Apellido paterno"
-            handleOnChange={handleOnChange}
-            inputType="input"
-            leftAddonIcon="bi bi-person-fill"
-            isError={formErrors.Apellido1}
-            isHidden={!isVisible}
-          />
-        </div>
+          <div>
+            <RegisterInput
+              inputNameValue="Apellido1"
+              inputTitle="Apellido paterno"
+              handleOnChange={handleOnChange}
+              inputType="input"
+              leftAddonIcon="bi bi-person-fill"
+              isError={formErrors.Apellido1}
+              isHidden={!isVisible}
+            />
+          </div>
 
-        <div className="mb-3">
-          <RegisterInput
-            inputNameValue="Apellido2"
-            inputTitle="Apellido materno"
-            handleOnChange={handleOnChange}
-            inputType="input"
-            leftAddonIcon="bi bi-person-fill"
-            isError={formErrors.Apellido2}
-            isHidden={!isVisible}
-          />
-        </div>
+          <div>
+            <RegisterInput
+              inputNameValue="Apellido2"
+              inputTitle="Apellido materno"
+              handleOnChange={handleOnChange}
+              inputType="input"
+              leftAddonIcon="bi bi-person-fill"
+              isError={formErrors.Apellido2}
+              isHidden={!isVisible}
+            />
+          </div>
 
-        <div className="mb-3">
-          <RegisterInput
-            inputNameValue="Correo"
-            inputTitle="Correo electronico"
-            handleOnChange={handleOnChange}
-            inputType="email"
-            leftAddonIcon="bi bi-envelope"
-            isError={formErrors.Correo}
-          />
-        </div>
+          <div>
+            <RegisterInput
+              inputNameValue="Correo"
+              inputTitle="Correo electronico"
+              handleOnChange={handleOnChange}
+              inputType="email"
+              leftAddonIcon="bi bi-envelope"
+              isError={formErrors.Correo}
+              isHidden={isVisible}
+            />
+          </div>
 
-        <div className="mb-3">
-          <RegisterInput
-            inputNameValue="Password"
-            inputTitle="Contraseña"
-            handleOnChange={handleOnChange}
-            inputType="password"
-            leftAddonIcon="bi bi-lock"
-            isError={formErrors.Password}
-          />
-        </div>
+          <div>
+            <RegisterInput
+              inputNameValue="Password"
+              inputTitle="Contraseña"
+              handleOnChange={handleOnChange}
+              inputType="password"
+              leftAddonIcon="bi bi-lock"
+              isError={formErrors.Password}
+              isHidden={isVisible}
+            />
+          </div>
 
-        <div className="mb-3">
-          <RegisterInput
-            handleOnChange={handleOnChange}
-            inputNameValue="FechaNacimiento"
-            inputTitle="Fecha de nacimiento"
-            inputType="date"
-            leftAddonIcon="bi bi-calendar"
-            isError={formErrors.FechaNacimiento}
-          />
-        </div>
+          <div>
+            <RegisterInput
+              handleOnChange={handleOnChange}
+              inputNameValue="FechaNacimiento"
+              inputTitle="Fecha de nacimiento"
+              inputType="date"
+              leftAddonIcon="bi bi-calendar"
+              isError={formErrors.FechaNacimiento}
+              isHidden={isVisible}
+            />
+          </div>
 
-        <button className="btn btn-primary" onClick={() => handleRegister()}>
-          Registrarme
-        </button>
-        <p className="mt-1">
-          ¿Ya tienes una cuenta?{" "}
-          <Link
-            to="../login"
-            className="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover fs-6"
+          <button
+            className="btn btn-primary mt-3 mb-1"
+            onClick={() => setIsVisible(!isVisible)}
           >
-            Inicia sesión
-          </Link>
-        </p>
-      </div>
+            {isVisible ? "Atras" : "Siguiente"}
+          </button>
+          <button
+            className="btn btn-primary"
+            hidden={!isVisible}
+            onClick={() => handleRegister()}
+          >
+            Registrarme
+          </button>
+          <p className="mt-1">
+            ¿Ya tienes una cuenta?{" "}
+            <Link
+              to="../login"
+              className="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover fs-6"
+            >
+              Inicia sesión
+            </Link>
+          </p>
+        </div>
+        </MagicMotion>
     </AuthContainer>
   );
 }

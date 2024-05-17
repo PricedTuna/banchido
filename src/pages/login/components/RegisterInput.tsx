@@ -25,7 +25,7 @@ function RegisterInput({
   isHidden,
 }: Props) {
   return (
-    <div hidden={isHidden}>
+    <div hidden={isHidden} className={`mb-1`}>
       <label htmlFor={inputType} className="form-label">
         {inputTitle}
       </label>

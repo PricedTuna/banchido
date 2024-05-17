@@ -1,6 +1,5 @@
-import { useContext } from "react";
-import { Link, Outlet, useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
+
+import { Link, Outlet, } from "react-router-dom";
 
 function MainLayout() {
 
