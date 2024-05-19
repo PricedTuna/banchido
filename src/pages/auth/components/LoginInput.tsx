@@ -1,4 +1,4 @@
-import { LoginDTO } from "../../../interfaces/DTOS/LoginDTO";
+import { LoginDTO } from "../../../interfaces/DTOS/auth/LoginDTO";
 
 interface Props {
   inputTitle: string;

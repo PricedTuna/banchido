@@ -1,5 +1,5 @@
 import { useContext, useRef, useState } from "react";
-import { RegisterDTO } from "../../interfaces/DTOS/RegisterDTO";
+import { RegisterDTO } from "../../interfaces/DTOS/auth/RegisterDTO";
 import { Link, useNavigate } from "react-router-dom";
 import RegisterInput from "./components/RegisterInput";
 import AuthContainer from "./components/AuthContainer";

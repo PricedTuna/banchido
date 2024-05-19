@@ -5,9 +5,9 @@ import {
   useContext,
   useReducer,
 } from "react";
-import { Usuario } from "../interfaces/models/Usuario";
-import { Cuenta } from "../interfaces/models/Cuenta";
-import { LoginRecibeDTO } from "../interfaces/DTOS/LoginRecibeDTO";
+import { Usuario } from "../../interfaces/models/Usuario"; 
+import { Cuenta } from "../../interfaces/models/Cuenta"; 
+import { LoginRecibeDTO } from "../../interfaces/DTOS/auth/LoginRecibeDTO"; 
 
 // Tipo de estado (STATE)
 interface AuthState {

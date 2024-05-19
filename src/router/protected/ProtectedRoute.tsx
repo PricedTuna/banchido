@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react"
 import { Outlet, useNavigate } from "react-router-dom"
-import { AuthContext } from "../common/context/AuthContext"; 
-import LoginPage from "../pages/auth/LoginPage";
+import { AuthContext } from "../../common/context/AuthContext"; 
+import LoginPage from "../../pages/auth/LoginPage"; 
 import { AnimatePresence } from "framer-motion";
 
 function ProtectedRoute() {

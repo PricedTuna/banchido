@@ -2,12 +2,12 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../common/context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "./hooks/useAuth";
-import { LoginDTO } from "../../interfaces/DTOS/LoginDTO";
+import { LoginDTO } from "../../interfaces/DTOS/auth/LoginDTO";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import AuthContainer from "./components/AuthContainer";
 import LoginInput from "./components/LoginInput";
-import { LoginRecibeDTO } from "../../interfaces/DTOS/LoginRecibeDTO";
+import { LoginRecibeDTO } from "../../interfaces/DTOS/auth/LoginRecibeDTO"; 
 
 export interface LoginErrors {
   correo: boolean;

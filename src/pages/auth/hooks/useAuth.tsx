@@ -1,7 +1,8 @@
+import cifrarPassword from "../../../common/helpers/cifrarPassword";
 import { axiosApi } from "../../../config/api/axiosConfig";
-import { LoginDTO } from "../../../interfaces/DTOS/LoginDTO";
-import { LoginRecibeDTO } from "../../../interfaces/DTOS/LoginRecibeDTO";
-import { RegisterDTO } from "../../../interfaces/DTOS/RegisterDTO";
+import { LoginDTO } from "../../../interfaces/DTOS/auth/LoginDTO";
+import { LoginRecibeDTO } from "../../../interfaces/DTOS/auth/LoginRecibeDTO"; 
+import { RegisterDTO } from "../../../interfaces/DTOS/auth/RegisterDTO";
 import { Cuenta } from "../../../interfaces/models/Cuenta";
 import { Usuario } from "../../../interfaces/models/Usuario";
 
@@ -55,6 +56,10 @@ export function useAuth() {
   };
 
   const registerUser = async (registerDTO: RegisterDTO): Promise<LoginRecibeDTO | null> => {
+
+    // hash password
+    registerDTO.Password = cifrarPassword(registerDTO.Password);
+
     const userResponse = await axiosApi
       .post<Usuario>("/Usuario/register", registerDTO)
       .then((response) => {
@@ -64,11 +69,6 @@ export function useAuth() {
 
       if(!userResponse)
         return null;
-
-      console.log({userResponse});
-      console.log(userResponse.id);
-      
-
 
       const cuentaResponse = await axiosApi
         .post("/Cuenta/register", {UsuarioId: userResponse.id })

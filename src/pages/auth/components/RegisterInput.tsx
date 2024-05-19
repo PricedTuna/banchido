@@ -1,5 +1,5 @@
 import React from "react";
-import { RegisterDTO } from "../../../interfaces/DTOS/RegisterDTO";
+import { RegisterDTO } from "../../../interfaces/DTOS/auth/RegisterDTO";
 
 interface Props {
   inputTitle: string;

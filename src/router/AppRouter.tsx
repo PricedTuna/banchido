@@ -2,7 +2,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import HomePage from "../pages/home/HomePage";
 import LoginPage from "../pages/auth/LoginPage";
 import MainLayout from "../layouts/MainLayout";
-import ProtectedRoute from "../protected/ProtectedRoute";
+import ProtectedRoute from "./protected/ProtectedRoute"; 
 import ActionsPage from "../pages/actions/ActionsPage";
 import TransferenciaActPage from "../pages/actions/actionsPages/TransferenciaActPage";
 import RSTActPage from "../pages/actions/actionsPages/RSTActPage";

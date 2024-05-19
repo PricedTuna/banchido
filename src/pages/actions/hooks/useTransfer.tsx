@@ -1,7 +1,7 @@
 import { axiosApi } from "../../../config/api/axiosConfig";
 import { getBasicUserInfoDTO } from "../../../interfaces/DTOS/actions/getBasicUserInfoDTO";
 import { transferDTO } from "../../../interfaces/DTOS/actions/transfer/transferDTO";
-import { basicAcountInfoDTO } from "../../../interfaces/DTOS/basicAcountInfoDTO";
+import { basicAcountInfoDTO } from "../../../interfaces/DTOS/auth/basicAcountInfoDTO";
 
 function useTransfer() {
   const makeTransfer = async (
