@@ -1,7 +1,7 @@
 :root {
-  --primary-color: rgb(22, 105, 122);
-  --border-color: rgb(19, 91, 105);
-  --bg-color: rgb(130, 192, 204);
+  --primary-color: #3498db;
+  --border-color: #2980b9;
+  --bg-color: #ecf0f1;
 }
 
 .loginContainer {

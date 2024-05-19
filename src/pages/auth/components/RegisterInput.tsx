@@ -9,7 +9,6 @@ interface Props {
   ) => (changeEvent: React.ChangeEvent<HTMLInputElement>) => void;
   inputNameValue: keyof RegisterDTO;
   isError: boolean;
-  isHidden: boolean;
   leftAddonIcon?: string;
   rightAddonIcon?: string;
 }
@@ -22,10 +21,9 @@ function RegisterInput({
   leftAddonIcon,
   rightAddonIcon,
   isError,
-  isHidden,
 }: Props) {
   return (
-    <div hidden={isHidden} className={`mb-1`}>
+    <div className={`mb-1`}>
       <label htmlFor={inputType} className="form-label">
         {inputTitle}
       </label>

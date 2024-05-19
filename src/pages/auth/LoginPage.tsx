@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { AuthContext } from "../../context/AuthContext";
+import { AuthContext } from "../../common/context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "./hooks/useAuth";
 import { LoginDTO } from "../../interfaces/DTOS/LoginDTO";
@@ -8,7 +8,6 @@ import Swal from "sweetalert2";
 import AuthContainer from "./components/AuthContainer";
 import LoginInput from "./components/LoginInput";
 import { LoginRecibeDTO } from "../../interfaces/DTOS/LoginRecibeDTO";
-import { MagicMotion } from "react-magic-motion";
 
 export interface LoginErrors {
   correo: boolean;
@@ -102,7 +101,6 @@ function LoginPage() {
 
   return (
     <AuthContainer>
-      <MagicMotion>
       <div className="container d-flex flex-column">
         <div className="mb-1">
           <LoginInput
@@ -138,7 +136,6 @@ function LoginPage() {
           </Link>
         </p>
       </div>
-      </MagicMotion>
     </AuthContainer>
   );
 }

@@ -1,8 +1,9 @@
 import ActionButton from "../components/ActionButton";
-import { AuthContext, useUserAndCountInfo } from "../../context/AuthContext";
-import useNotAutorized from "../../hooks/useNotAutorized";
+import useNotAutorized from "../../common/hooks/useNotAutorized"; 
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import PagesContainer from "../components/PagesContainer";
+import { AuthContext, useUserAndCountInfo } from "../../common/context/AuthContext";
 
 function HomePage() {
 
@@ -23,10 +24,7 @@ function HomePage() {
   };
 
   return (
-    <div
-      className="container-fluid d-flex flex-column align-items-center justify-content-center gap-2"
-      style={{ minHeight: "calc(100vh - 100px)" }}
-    >
+    <PagesContainer>
       <h1 className="mb-0">{ `${userAndCountInfo?.nombres} ${userAndCountInfo?.apellidos}` }</h1>
       <p className="m-0" style={{ fontSize: "6rem" }}>{ userAndCountInfo?.saldo }</p>
       <p className="fs-6 mb-3">Numero cuenta: {userAndCountInfo?.numeroCuenta}</p>
@@ -37,7 +35,7 @@ function HomePage() {
           Cerrar sesion
         </p>
       </div>
-    </div>
+    </PagesContainer>
   );
 }
 

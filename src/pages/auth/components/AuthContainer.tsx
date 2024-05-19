@@ -1,8 +1,13 @@
 import { PropsWithChildren } from "react";
+import { motion } from "framer-motion";
 
 function AuthContainer({children}: PropsWithChildren) {
   return (
-    <div
+    <motion.div
+      initial={{opacity: 0}}
+      animate={{opacity: 1}}
+      exit={{opacity: 0}}
+      
       className="d-flex flex-column justify-content-center align-items-center p-4"
       style={{ height: "100vh" }}
     >
@@ -15,7 +20,7 @@ function AuthContainer({children}: PropsWithChildren) {
         {children}
 
       </div>
-    </div>
+    </motion.div>
   );
 }
 

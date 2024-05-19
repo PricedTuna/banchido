@@ -5,8 +5,8 @@ import EditProfileInput from "../components/EditProfileInput";
 import { EditProfileErrors } from "../../../interfaces/DTOS/actions/editProfile/EditProfileErrors";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
-import { useUserInfo } from "../../../context/AuthContext";
-import useNotAutorized from "../../../hooks/useNotAutorized";
+import useNotAutorized from "../../../common/hooks/useNotAutorized";
+import { useUserInfo } from "../../../common/context/AuthContext";
 
 function EditarPerfilActPage() {
 

@@ -1,8 +1,7 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import HomePage from "../pages/home/HomePage";
-import LoginPage from "../pages/login/LoginPage";
+import LoginPage from "../pages/auth/LoginPage";
 import MainLayout from "../layouts/MainLayout";
-import { AuthProvider, initialState } from "../context/AuthContext";
 import ProtectedRoute from "../protected/ProtectedRoute";
 import ActionsPage from "../pages/actions/ActionsPage";
 import TransferenciaActPage from "../pages/actions/actionsPages/TransferenciaActPage";
@@ -10,9 +9,9 @@ import RSTActPage from "../pages/actions/actionsPages/RSTActPage";
 import EditarPerfilActPage from "../pages/actions/actionsPages/EditProfileActPage";
 import AddCardActPage from "../pages/actions/actionsPages/AddCardActPage";
 import HistorialPage from "../pages/historial/HistorialPage";
-import RegisterPage from "../pages/login/RegisterPage";
+import RegisterPage from "../pages/auth/RegisterPage";
+import { AuthProvider, initialState } from "../common/context/AuthContext";
 
-// const baseURL = "banchido"; // Pruebas
 const baseURL = ""; // Local
 
 const router = createBrowserRouter([

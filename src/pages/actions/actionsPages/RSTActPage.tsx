@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useCuentaInfo } from "../../../context/AuthContext";
-import useNotAutorized from "../../../hooks/useNotAutorized";
+import { useCuentaInfo } from "../../../common/context/AuthContext";
+import useNotAutorized from "../../../common/hooks/useNotAutorized";
 import ActionsPageWrapper from "../components/ActionsPageWrapper";
 import { rstForm } from "../../../interfaces/DTOS/actions/rst/rstForm";
 import RSTInput from "../components/RSTInput";

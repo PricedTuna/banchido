@@ -1,7 +1,8 @@
 import { useContext, useEffect } from "react"
 import { Outlet, useNavigate } from "react-router-dom"
-import { AuthContext } from "../context/AuthContext";
-import LoginPage from "../pages/login/LoginPage";
+import { AuthContext } from "../common/context/AuthContext"; 
+import LoginPage from "../pages/auth/LoginPage";
+import { AnimatePresence } from "framer-motion";
 
 function ProtectedRoute() {
   const authContext = useContext(AuthContext);
@@ -22,7 +23,9 @@ function ProtectedRoute() {
 
 
   return (
-    <Outlet />
+    <AnimatePresence>
+      <Outlet />
+    </AnimatePresence>
   )
 }
 

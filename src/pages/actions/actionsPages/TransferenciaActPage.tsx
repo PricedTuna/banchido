@@ -2,9 +2,9 @@ import { useState } from "react";
 import ActionsPageWrapper from "../components/ActionsPageWrapper";
 import ActionInput from "../components/ActionInput";
 import useTransfer from "../hooks/useTransfer";
-import { useCuentaInfo } from "../../../context/AuthContext";
 import { transferDTO } from "../../../interfaces/DTOS/actions/transfer/transferDTO";
 import withReactContent from "sweetalert2-react-content";
+import { useCuentaInfo } from "../../../common/context/AuthContext";
 import Swal from "sweetalert2";
 
 export interface transferFormInterface {
@@ -93,7 +93,7 @@ function TransferenciaActPage() {
     <ActionsPageWrapper>
       <h1>Transferencia</h1>
       <div>
-        <div className="d-flex flex-column mb-4">
+        <div style={{minWidth: "3rem"}} className="d-flex flex-column mb-4">
           <ActionInput
             inputType="text"
             inputTitle="Cantidad a transferir"

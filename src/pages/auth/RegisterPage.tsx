@@ -6,8 +6,10 @@ import AuthContainer from "./components/AuthContainer";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import { useAuth } from "./hooks/useAuth";
-import { AuthContext } from "../../context/AuthContext";
-import { MagicMotion } from "react-magic-motion";
+import { AuthContext } from "../../common/context/AuthContext";
+import { AnimatePresence } from "framer-motion";
+import RegisterInputWrap from "../../common/components/AnimatedInputWrap";
+import { motion } from "framer-motion";
 
 export interface RegisterErrors {
   Correo: boolean;
@@ -127,79 +129,81 @@ function RegisterPage() {
 
   return (
     <AuthContainer>
-      <MagicMotion>
+      <AnimatePresence>
         <div className="container d-flex flex-column">
-          <div>
-            <RegisterInput
-              inputNameValue="Nombres"
-              inputTitle="Nombres"
-              handleOnChange={handleOnChange}
-              inputType="input"
-              leftAddonIcon="bi bi-person-fill"
-              isError={formErrors.Nombres}
-              isHidden={!isVisible}
-            />
-          </div>
+          {isVisible && (
+            <>
+              <RegisterInputWrap>
+                <RegisterInput
+                  inputNameValue="Nombres"
+                  inputTitle="Nombres"
+                  handleOnChange={handleOnChange}
+                  inputType="input"
+                  leftAddonIcon="bi bi-person-fill"
+                  isError={formErrors.Nombres}
+                />
+              </RegisterInputWrap>
 
-          <div>
-            <RegisterInput
-              inputNameValue="Apellido1"
-              inputTitle="Apellido paterno"
-              handleOnChange={handleOnChange}
-              inputType="input"
-              leftAddonIcon="bi bi-person-fill"
-              isError={formErrors.Apellido1}
-              isHidden={!isVisible}
-            />
-          </div>
+              <RegisterInputWrap>
+                <RegisterInput
+                  inputNameValue="Apellido1"
+                  inputTitle="Apellido paterno"
+                  handleOnChange={handleOnChange}
+                  inputType="input"
+                  leftAddonIcon="bi bi-person-fill"
+                  isError={formErrors.Apellido1}
+                />
+              </RegisterInputWrap>
 
-          <div>
-            <RegisterInput
-              inputNameValue="Apellido2"
-              inputTitle="Apellido materno"
-              handleOnChange={handleOnChange}
-              inputType="input"
-              leftAddonIcon="bi bi-person-fill"
-              isError={formErrors.Apellido2}
-              isHidden={!isVisible}
-            />
-          </div>
+              <RegisterInputWrap>
+                <RegisterInput
+                  inputNameValue="Apellido2"
+                  inputTitle="Apellido materno"
+                  handleOnChange={handleOnChange}
+                  inputType="input"
+                  leftAddonIcon="bi bi-person-fill"
+                  isError={formErrors.Apellido2}
+                />
+              </RegisterInputWrap>
+            </>
+          )}
+          {!isVisible && 
+          <>
+            <RegisterInputWrap>
+              <RegisterInput
+                inputNameValue="Correo"
+                inputTitle="Correo electronico"
+                handleOnChange={handleOnChange}
+                inputType="email"
+                leftAddonIcon="bi bi-envelope"
+                isError={formErrors.Correo}
+              />
+            </RegisterInputWrap>
 
-          <div>
-            <RegisterInput
-              inputNameValue="Correo"
-              inputTitle="Correo electronico"
-              handleOnChange={handleOnChange}
-              inputType="email"
-              leftAddonIcon="bi bi-envelope"
-              isError={formErrors.Correo}
-              isHidden={isVisible}
-            />
-          </div>
+            <RegisterInputWrap>
+              <RegisterInput
+                inputNameValue="Password"
+                inputTitle="Contraseña"
+                handleOnChange={handleOnChange}
+                inputType="password"
+                leftAddonIcon="bi bi-lock"
+                isError={formErrors.Password}
+              />
+            </RegisterInputWrap>
 
-          <div>
-            <RegisterInput
-              inputNameValue="Password"
-              inputTitle="Contraseña"
-              handleOnChange={handleOnChange}
-              inputType="password"
-              leftAddonIcon="bi bi-lock"
-              isError={formErrors.Password}
-              isHidden={isVisible}
-            />
-          </div>
+            <RegisterInputWrap>
+              <RegisterInput
+                handleOnChange={handleOnChange}
+                inputNameValue="FechaNacimiento"
+                inputTitle="Fecha de nacimiento"
+                inputType="date"
+                leftAddonIcon="bi bi-calendar"
+                isError={formErrors.FechaNacimiento}
+              />
+            </RegisterInputWrap>
+          </>
+          }
 
-          <div>
-            <RegisterInput
-              handleOnChange={handleOnChange}
-              inputNameValue="FechaNacimiento"
-              inputTitle="Fecha de nacimiento"
-              inputType="date"
-              leftAddonIcon="bi bi-calendar"
-              isError={formErrors.FechaNacimiento}
-              isHidden={isVisible}
-            />
-          </div>
 
           <button
             className="btn btn-primary mt-3 mb-1"
@@ -207,13 +211,19 @@ function RegisterPage() {
           >
             {isVisible ? "Atras" : "Siguiente"}
           </button>
-          <button
-            className="btn btn-primary"
-            hidden={!isVisible}
-            onClick={() => handleRegister()}
-          >
-            Registrarme
-          </button>
+
+          {isVisible && (
+              <motion.button
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="btn btn-primary"
+                hidden={!isVisible}
+                onClick={() => handleRegister()}
+              >
+                Registrarme
+              </motion.button>
+          )}
           <p className="mt-1">
             ¿Ya tienes una cuenta?{" "}
             <Link
@@ -224,7 +234,7 @@ function RegisterPage() {
             </Link>
           </p>
         </div>
-        </MagicMotion>
+      </AnimatePresence>
     </AuthContainer>
   );
 }
