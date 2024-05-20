@@ -1,6 +1,6 @@
 export interface Cuenta {
-  id: number;
-  numeroCuenta: string;
+  _id: string;
+  NumeroCuenta: string;
   RFID: string;
-  saldo: number;
+  Saldo: number;
 }

@@ -24,7 +24,7 @@ function RSTActPage() {
       sendToLoginLogout();
     } else {
       
-      if(thisCuentaInfo.saldo < rstForm.Cantidad){
+      if(thisCuentaInfo.Saldo < rstForm.Cantidad){
         mySwal.fire({
           title: "Cantidad excesiva",
           text: "No puedes retirar una cantidad mayor a tu saldo en cuenta",
@@ -33,7 +33,7 @@ function RSTActPage() {
         return;
       }
 
-      setRstForm({...rstForm, CuentaOrigenId: thisCuentaInfo.id});
+      setRstForm({...rstForm, CuentaOrigenId: thisCuentaInfo._id});
       const tokenGenerated = await generateToken(rstForm);
 
       if(tokenGenerated == undefined){
@@ -71,7 +71,7 @@ function RSTActPage() {
           <RSTInput
             handleOnChange={handleOnChange}
             inputNameValue="Cantidad"
-            inputTitle={`Cantidad a retirar (maximo ${thisCuentaInfo?.saldo})`}
+            inputTitle={`Cantidad a retirar (maximo ${thisCuentaInfo?.Saldo})`}
             inputType="number"
           />
           <p className="text-center fs-5">Token: {token}</p>

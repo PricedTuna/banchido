@@ -92,7 +92,7 @@ function EditarPerfilActPage() {
               inputType="email"
               leftAddonIcon="bi bi-envelope"
               isError={formErrors.correo}
-              value={userInfo ? userInfo.correo : ""}
+              value={userInfo ? userInfo.Correo : ""}
             />
           </div>
 

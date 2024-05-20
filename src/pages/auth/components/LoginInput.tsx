@@ -1,12 +1,12 @@
-import { LoginDTO } from "../../../interfaces/DTOS/auth/LoginDTO";
+import { SendLoginDTO } from "../../../interfaces/DTOS/auth/login/LoginDTO";
 
 interface Props {
   inputTitle: string;
   inputType: React.HTMLInputTypeAttribute | undefined;
   handleOnChange: (
-    fieldName: keyof LoginDTO
+    fieldName: keyof SendLoginDTO
   ) => (changeEvent: React.ChangeEvent<HTMLInputElement>) => void;
-  inputNameValue: keyof LoginDTO;
+  inputNameValue: keyof SendLoginDTO;
   isError: boolean;
   leftAddonIcon?: string;
   rightAddonIcon?: string;

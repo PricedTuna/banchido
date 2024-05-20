@@ -66,7 +66,7 @@ function TransferenciaActPage() {
     const transferCuentaInfo = await getAcountByNumAcount(formValues.cuentaDestino);
 
     const makeTransferData: transferDTO = {
-      CuentaOrigenId: (thisCuentaInfo ? thisCuentaInfo.id : 0),
+      CuentaOrigenId: (thisCuentaInfo ? thisCuentaInfo._id : 0),
       CuentaDestinoId: (transferCuentaInfo ? transferCuentaInfo.id : 0),
       Cantidad: formValues.cantidad,
     };

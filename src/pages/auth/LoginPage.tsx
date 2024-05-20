@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../common/context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "./hooks/useAuth";
-import { LoginDTO } from "../../interfaces/DTOS/auth/LoginDTO";
+import { SendLoginDTO } from "../../interfaces/DTOS/auth/login/LoginDTO";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import AuthContainer from "./components/AuthContainer";
@@ -23,7 +23,7 @@ function LoginPage() {
   const { loginUser } = useAuth();
   const mySwal = withReactContent(Swal);
 
-  const [formValues, setFormValues] = useState<LoginDTO>({
+  const [formValues, setFormValues] = useState<SendLoginDTO>({
     correo: "",
     password: "",
   });
@@ -78,6 +78,7 @@ function LoginPage() {
     });
 
     const UsuarioRecibido: LoginRecibeDTO | null = await loginUser(formValues);
+    console.log(UsuarioRecibido) // !
 
     if (UsuarioRecibido) {
       login(UsuarioRecibido);
@@ -94,7 +95,7 @@ function LoginPage() {
   };
 
   const handleOnChange =
-    (fieldName: keyof LoginDTO) =>
+    (fieldName: keyof SendLoginDTO) =>
     (changeEvent: React.ChangeEvent<HTMLInputElement>) => {
       setFormValues({ ...formValues, [fieldName]: changeEvent.target.value });
     };

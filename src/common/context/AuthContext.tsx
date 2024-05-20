@@ -32,18 +32,18 @@ type Action = {
 export const initialState: AuthState = {
   isLoggedIn: false,
   userData: {
-    id: 0,
-    apellido1: "",
-    apellido2: "",
-    correo: "",
-    fechaNacimiento: "",
-    nombres: "",
+    _id: "",
+    Apellido1: "",
+    Apellido2: "",
+    Correo: "",
+    FechaNacimiento: "",
+    Nombres: "",
   },
   cuentaData: {
-    id: 0,
-    numeroCuenta: "",
+    _id: "",
+    NumeroCuenta: "",
     RFID: "",
-    saldo: 0.0,
+    Saldo: 0.0,
   },
 };
 
@@ -124,10 +124,10 @@ export const useUserAndCountInfo = (): useUserAndCountInfoType | undefined => {
   if (userData === undefined || cuentaData === undefined) return undefined;
 
   const userAndCountInfo: useUserAndCountInfoType = {
-    nombres: userData.nombres,
-    apellidos: `${userData.apellido1} ${userData.apellido2}`,
-    numeroCuenta: cuentaData.numeroCuenta,
-    saldo: cuentaData.saldo,
+    nombres: userData.Nombres,
+    apellidos: `${userData.Apellido1} ${userData.Apellido2}`,
+    numeroCuenta: cuentaData.NumeroCuenta,
+    saldo: cuentaData.Saldo,
   };
 
   return userAndCountInfo;
