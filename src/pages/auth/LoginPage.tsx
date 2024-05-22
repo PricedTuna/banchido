@@ -7,7 +7,9 @@ import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import AuthContainer from "./components/AuthContainer";
 import LoginInput from "./components/LoginInput";
-import { LoginRecibeDTO } from "../../interfaces/DTOS/auth/LoginRecibeDTO"; 
+import { LoginRecibeDTO } from "../../interfaces/DTOS/auth/LoginRecibeDTO";
+import useDefaultsSwal from "../../common/hooks/useDefaultsSwal";
+import useFormValidator from "../../common/hooks/useFormValidator";
 
 export interface LoginErrors {
   correo: boolean;
@@ -22,6 +24,8 @@ function LoginPage() {
   const { login } = authContext;
   const { loginUser } = useAuth();
   const mySwal = withReactContent(Swal);
+  const {emptyFieldsSwal, wrongEmailSwal, loginSwal} = useDefaultsSwal();
+  const {validateEmail, validatePassword} = useFormValidator();
 
   const [formValues, setFormValues] = useState<SendLoginDTO>({
     correo: "",
@@ -34,31 +38,47 @@ function LoginPage() {
   });
 
   const validateLoginForm = (): boolean => {
-    let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    
 
     if (formValues.correo == "" || formValues.password == "") {
-      mySwal.fire({
-        title: "No puede haber ningún campo vacío",
-        icon: "error",
-      });
+      mySwal.fire(emptyFieldsSwal);
 
-      if(formValues.correo == ""){
-        setFormErrors({ ...formErrors, correo: true, password: false });
+      if (formValues.correo == "") {
+        setFormErrors((prevErrors) => ({
+          ...prevErrors,
+          correo: true, // Marca el campo como con error
+        }));
       }
 
-      if(formValues.password == ""){
-        setFormErrors({ ...formErrors, password: true });
+      if (formValues.password == "") {
+        setFormErrors((prevErrors) => ({
+          ...prevErrors,
+          password: true, // Marca el campo como con error
+        }));
       }
-      
+
       return false;
     }
 
-    if (!emailPattern.test(formValues.correo)) {
-      mySwal.fire({
-        title: "Verifica la sintaxys de tu correo",
-        icon: "error",
-      });
-      setFormErrors({ ...formErrors, correo: true, password: false });
+    if (validateEmail(formValues.correo)) {
+      mySwal.fire(wrongEmailSwal);
+
+      setFormErrors((prevErrors) => ({
+        ...prevErrors,
+        correo: true, // Marca el campo como con error
+        password: false
+      }));
+      return false;
+    }
+
+    if (validatePassword(formValues.password)) {
+      mySwal.fire(wrongEmailSwal);
+
+      setFormErrors((prevErrors) => ({
+        ...prevErrors,
+        correo: true, // Marca el campo como con error
+        password: false
+      }));
       return false;
     }
 
@@ -70,15 +90,13 @@ function LoginPage() {
     else setFormErrors({ ...formErrors, correo: false, password: false });
 
     mySwal.fire({
-      // Login swal
-      title: "Iniciando sesión...",
-      didOpen: () => {
-        Swal.showLoading();
-      },
+      ...loginSwal,
+    didOpen: () => {
+      Swal.showLoading();
+    },
     });
 
     const UsuarioRecibido: LoginRecibeDTO | null = await loginUser(formValues);
-    console.log(UsuarioRecibido) // !
 
     if (UsuarioRecibido) {
       login(UsuarioRecibido);
