@@ -2,7 +2,9 @@ function useFormValidator() {
   const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   const validateEmail = (email: string): boolean => {
-    return !emailPattern.test(email);
+    const resultado = emailPattern.test(email);
+    console.log(resultado)
+    return resultado
   }
 
   const validatePassword = (password: string): boolean => {

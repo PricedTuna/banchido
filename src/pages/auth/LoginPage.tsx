@@ -24,7 +24,7 @@ function LoginPage() {
   const { login } = authContext;
   const { loginUser } = useAuth();
   const mySwal = withReactContent(Swal);
-  const {emptyFieldsSwal, wrongEmailSwal, loginSwal} = useDefaultsSwal();
+  const {emptyFieldsSwal, wrongEmailSwal, loginSwal, wrongPasswordSwal} = useDefaultsSwal();
   const {validateEmail, validatePassword} = useFormValidator();
 
   const [formValues, setFormValues] = useState<SendLoginDTO>({
@@ -60,7 +60,7 @@ function LoginPage() {
       return false;
     }
 
-    if (validateEmail(formValues.correo)) {
+    if (!validateEmail(formValues.correo)) {
       mySwal.fire(wrongEmailSwal);
 
       setFormErrors((prevErrors) => ({
@@ -71,13 +71,12 @@ function LoginPage() {
       return false;
     }
 
-    if (validatePassword(formValues.password)) {
-      mySwal.fire(wrongEmailSwal);
+    if (!validatePassword(formValues.password)) {
+      mySwal.fire(wrongPasswordSwal);
 
       setFormErrors((prevErrors) => ({
         ...prevErrors,
-        correo: true, // Marca el campo como con error
-        password: false
+        password: true
       }));
       return false;
     }

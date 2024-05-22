@@ -1,6 +1,8 @@
 import cifrarPassword from "../../../common/helpers/cifrarPassword";
+import { parseJwt } from "../../../common/helpers/parseJwt";
 import { axiosApi } from "../../../config/api/axiosConfig";
 import { SendLoginDTO } from "../../../interfaces/DTOS/auth/login/LoginDTO";
+import { SignInRespDto } from "../../../interfaces/DTOS/auth/login/new/SignInRespDto";
 import { LoginRecibeDTO } from "../../../interfaces/DTOS/auth/LoginRecibeDTO";
 import { RegisterDTO } from "../../../interfaces/DTOS/auth/RegisterDTO";
 import { Cuenta } from "../../../interfaces/models/Cuenta";
@@ -38,32 +40,28 @@ export function useAuth() {
       return LoginResopnses;
     }
 
-    // cifrate the password before send it
-    // SendLoginDTO.password = cifrarPassword(SendLoginDTO.password);
+    // ~ cifrate the password before send it
+    // ~ SendLoginDTO.password = cifrarPassword(SendLoginDTO.password);
 
     // login user
-    const userResponse = await axiosApi
-      .post<Usuario>("/users/login", SendLoginDTO)
+    const userTokenResponse = await axiosApi
+      .post<SignInRespDto>("/auth/signin", SendLoginDTO)
       .then((resp) => resp.data)
       .catch(() => null);
 
-    if (!userResponse) return null;
+    if (!userTokenResponse) return null;
 
-    // login account (get acount for user)
-    const cuentaResponse = await axiosApi
-      .get<Cuenta>("/accounts/account-by-user/"+userResponse._id) // !
-      .then((resp) => resp.data)
-      .catch(() => null);
+    const parsedJwt = parseJwt(userTokenResponse.access_token);
 
-    if (!cuentaResponse) return null;
-
-    console.log(userResponse); // !
-    console.log(cuentaResponse); // !
+    if (!parsedJwt) return null;
 
     const LoginResopnses: LoginRecibeDTO = {
-      UserData: userResponse,
-      CuentaData: cuentaResponse,
+      UserData: parsedJwt.user,
+      CuentaData: parsedJwt.account,
     };
+
+    axiosApi.defaults.headers.common['Authorization'] = `Bearer ${userTokenResponse}`;
+
     return LoginResopnses;
   };
 
