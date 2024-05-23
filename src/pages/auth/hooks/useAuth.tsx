@@ -1,4 +1,4 @@
-import cifrarPassword from "../../../common/helpers/cifrarPassword";
+// import cifrarPassword from "../../../common/helpers/cifrarPassword";
 import { parseJwt } from "../../../common/helpers/parseJwt";
 import { axiosApi } from "../../../config/api/axiosConfig";
 import { SendLoginDTO } from "../../../interfaces/DTOS/auth/login/LoginDTO";
@@ -51,50 +51,54 @@ export function useAuth() {
 
     if (!userTokenResponse) return null;
 
-    const parsedJwt = parseJwt(userTokenResponse.access_token);
+    const LoginResopnse = setUpToken(userTokenResponse);
 
-    if (!parsedJwt) return null;
-
-    const LoginResopnses: LoginRecibeDTO = {
-      UserData: parsedJwt.user,
-      CuentaData: parsedJwt.account,
-    };
-
-    axiosApi.defaults.headers.common['Authorization'] = `Bearer ${userTokenResponse}`;
-
-    return LoginResopnses;
+    return LoginResopnse;
   };
 
   const registerUser = async (
     registerDTO: RegisterDTO
   ): Promise<LoginRecibeDTO | null> => {
-    // hash password
-    registerDTO.Password = cifrarPassword(registerDTO.Password);
+    
+    // ~~ hash password
+    // ~~ registerDTO.Password = cifrarPassword(registerDTO.Password);
 
-    const userResponse = await axiosApi
-      .post<Usuario>("/Usuario/register", registerDTO)
+    try {
+      const userTokenResponse = await axiosApi
+      .post<SignInRespDto>("/auth/signup", registerDTO)
       .then((response) => {
         return response.data;
       })
       .catch(() => null);
 
-    if (!userResponse) return null;
+    if (!userTokenResponse) return null;
 
-    const cuentaResponse = await axiosApi
-      .post("/Cuenta/register", { UsuarioId: userResponse._id })
-      .then((response) => {
-        return response.data;
-      })
-      .catch(() => null);
+    const LoginResopnse = setUpToken(userTokenResponse);
 
-    if (!cuentaResponse) return null;
+    return LoginResopnse;
+    } catch (error) {
+      console.error(error);
+    }
+    
+    return null;
+
+  };
+
+  // ~~ helpers
+  const setUpToken = (token: SignInRespDto ) => {
+    const tokenParsed = parseJwt(token.access_token);
+
+    if (!tokenParsed) return null;
 
     const LoginResopnses: LoginRecibeDTO = {
-      UserData: userResponse,
-      CuentaData: cuentaResponse,
+      UserData: tokenParsed.user,
+      CuentaData: tokenParsed.account,
     };
+
+    axiosApi.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
     return LoginResopnses;
-  };
+  }
 
   return { loginUser, registerUser };
 }

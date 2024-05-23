@@ -3,7 +3,6 @@ function useFormValidator() {
 
   const validateEmail = (email: string): boolean => {
     const resultado = emailPattern.test(email);
-    console.log(resultado)
     return resultado
   }
 

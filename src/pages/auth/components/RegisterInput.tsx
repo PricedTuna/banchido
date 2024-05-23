@@ -9,6 +9,7 @@ interface Props {
   ) => (changeEvent: React.ChangeEvent<HTMLInputElement>) => void;
   inputNameValue: keyof RegisterDTO;
   isError: boolean;
+  value: string;
   leftAddonIcon?: string;
   rightAddonIcon?: string;
 }
@@ -21,6 +22,7 @@ function RegisterInput({
   leftAddonIcon,
   rightAddonIcon,
   isError,
+  value
 }: Props) {
   return (
     <div className={`mb-1`}>
@@ -40,7 +42,7 @@ function RegisterInput({
           id={inputNameValue}
           aria-describedby={inputNameValue}
           onChange={handleOnChange(inputNameValue)}
-          
+          value={value}
         />
         {rightAddonIcon ? (
           <span className="input-group-text" id="rightAddon">

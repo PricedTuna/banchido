@@ -10,6 +10,8 @@ import { AuthContext } from "../../common/context/AuthContext";
 import { AnimatePresence } from "framer-motion";
 import RegisterInputWrap from "../../common/components/AnimatedInputWrap";
 import { motion } from "framer-motion";
+import useDefaultsSwal from "../../common/hooks/useDefaultsSwal";
+import useFormValidator from "../../common/hooks/useFormValidator";
 
 export interface RegisterErrors {
   Correo: boolean;
@@ -29,6 +31,14 @@ function RegisterPage() {
   const { registerUser } = useAuth();
   const { login } = authContext;
   const isEmpty = useRef(false);
+  const {
+    emptyFieldsSwal,
+    wrongEmailSwal,
+    registerSwal,
+    wrongPasswordSwal,
+    genericErrorSwal,
+  } = useDefaultsSwal();
+  const { validateEmail, validatePassword } = useFormValidator();
 
   const [formValues, setFormValues] = useState<RegisterDTO>({
     Correo: "",
@@ -51,16 +61,13 @@ function RegisterPage() {
   const [isVisible, setIsVisible] = useState(false);
 
   const verifyRegisterForm = (): boolean => {
-    let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    isEmpty.current = false; // set false before check it
     // Valida si hay un campo vacío
     for (let key in formValues) {
       if (formValues.hasOwnProperty(key)) {
         if (formValues[key as keyof RegisterDTO].length <= 0) {
           // ~ esta vacío
-          mySwal.fire({
-            title: "No puede haber ningún campo vacío",
-            icon: "error",
-          });
+          mySwal.fire(emptyFieldsSwal);
           isEmpty.current = true;
           setFormErrors((prevErrors) => ({
             ...prevErrors,
@@ -77,17 +84,27 @@ function RegisterPage() {
     }
     if (isEmpty.current) {
       return false;
-    } else {
     }
 
-    if (!emailPattern.test(formValues.Correo)) {
-      mySwal.fire({
-        title: "Verifica la sintaxys de tu correo",
-        icon: "error",
-      });
+    // Valida email
+    if (!validateEmail(formValues.Correo)) {
+      mySwal.fire(wrongEmailSwal);
+
       setFormErrors((prevErrors) => ({
         ...prevErrors,
-        Correo: true, // Marca el campo de correo como con error
+        correo: true, // Marca el campo como con error
+        password: false,
+      }));
+      return false;
+    }
+
+    // Valida password
+    if (!validatePassword(formValues.Password)) {
+      mySwal.fire(wrongPasswordSwal);
+
+      setFormErrors((prevErrors) => ({
+        ...prevErrors,
+        password: true,
       }));
       return false;
     }
@@ -99,7 +116,7 @@ function RegisterPage() {
     if (!verifyRegisterForm()) return;
 
     mySwal.fire({
-      title: "Registrando usuario...",
+      ...registerSwal,
       didOpen: () => {
         Swal.showLoading();
       },
@@ -114,10 +131,7 @@ function RegisterPage() {
     } else {
       Swal.close(); // Cerrar swals abiertos (loading swal)
       console.error("Verifica tus chingaderas"); // !
-      mySwal.fire({
-        title: "Sucedió un error, intentalo mas tarde",
-        icon: "error",
-      });
+      mySwal.fire(genericErrorSwal);
     }
   };
 
@@ -141,6 +155,7 @@ function RegisterPage() {
                   inputType="input"
                   leftAddonIcon="bi bi-person-fill"
                   isError={formErrors.Nombres}
+                  value={formValues.Nombres}
                 />
               </RegisterInputWrap>
 
@@ -152,6 +167,7 @@ function RegisterPage() {
                   inputType="input"
                   leftAddonIcon="bi bi-person-fill"
                   isError={formErrors.Apellido1}
+                  value={formValues.Apellido1}
                 />
               </RegisterInputWrap>
 
@@ -163,47 +179,50 @@ function RegisterPage() {
                   inputType="input"
                   leftAddonIcon="bi bi-person-fill"
                   isError={formErrors.Apellido2}
+                  value={formValues.Apellido2}
                 />
               </RegisterInputWrap>
             </>
           )}
-          {!isVisible && 
-          <>
-            <RegisterInputWrap>
-              <RegisterInput
-                inputNameValue="Correo"
-                inputTitle="Correo electronico"
-                handleOnChange={handleOnChange}
-                inputType="email"
-                leftAddonIcon="bi bi-envelope"
-                isError={formErrors.Correo}
-              />
-            </RegisterInputWrap>
+          {!isVisible && (
+            <>
+              <RegisterInputWrap>
+                <RegisterInput
+                  inputNameValue="Correo"
+                  inputTitle="Correo electronico"
+                  handleOnChange={handleOnChange}
+                  inputType="email"
+                  leftAddonIcon="bi bi-envelope"
+                  isError={formErrors.Correo}
+                  value={formValues.Correo}
+                />
+              </RegisterInputWrap>
 
-            <RegisterInputWrap>
-              <RegisterInput
-                inputNameValue="Password"
-                inputTitle="Contraseña"
-                handleOnChange={handleOnChange}
-                inputType="password"
-                leftAddonIcon="bi bi-lock"
-                isError={formErrors.Password}
-              />
-            </RegisterInputWrap>
+              <RegisterInputWrap>
+                <RegisterInput
+                  inputNameValue="Password"
+                  inputTitle="Contraseña"
+                  handleOnChange={handleOnChange}
+                  inputType="password"
+                  leftAddonIcon="bi bi-lock"
+                  isError={formErrors.Password}
+                  value={formValues.Password}
+                />
+              </RegisterInputWrap>
 
-            <RegisterInputWrap>
-              <RegisterInput
-                handleOnChange={handleOnChange}
-                inputNameValue="FechaNacimiento"
-                inputTitle="Fecha de nacimiento"
-                inputType="date"
-                leftAddonIcon="bi bi-calendar"
-                isError={formErrors.FechaNacimiento}
-              />
-            </RegisterInputWrap>
-          </>
-          }
-
+              <RegisterInputWrap>
+                <RegisterInput
+                  handleOnChange={handleOnChange}
+                  inputNameValue="FechaNacimiento"
+                  inputTitle="Fecha de nacimiento"
+                  inputType="date"
+                  leftAddonIcon="bi bi-calendar"
+                  isError={formErrors.FechaNacimiento}
+                  value={formValues.FechaNacimiento}
+                />
+              </RegisterInputWrap>
+            </>
+          )}
 
           <button
             className="btn btn-primary mt-3 mb-1"
@@ -213,16 +232,16 @@ function RegisterPage() {
           </button>
 
           {isVisible && (
-              <motion.button
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="btn btn-primary"
-                hidden={!isVisible}
-                onClick={() => handleRegister()}
-              >
-                Registrarme
-              </motion.button>
+            <motion.button
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="btn btn-primary"
+              hidden={!isVisible}
+              onClick={() => handleRegister()}
+            >
+              Registrarme
+            </motion.button>
           )}
           <p className="mt-1">
             ¿Ya tienes una cuenta?{" "}
