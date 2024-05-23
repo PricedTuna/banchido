@@ -1,4 +1,4 @@
-// import cifrarPassword from "../../../common/helpers/cifrarPassword";
+import cifrarPassword from "../../../common/helpers/cifrarPassword";
 import { parseJwt } from "../../../common/helpers/parseJwt";
 import { axiosApi } from "../../../config/api/axiosConfig";
 import { SendLoginDTO } from "../../../interfaces/DTOS/auth/login/LoginDTO";
@@ -40,12 +40,14 @@ export function useAuth() {
       return LoginResopnses;
     }
 
-    // ~ cifrate the password before send it
-    // ~ SendLoginDTO.password = cifrarPassword(SendLoginDTO.password);
+    const loginUserData: SendLoginDTO = SendLoginDTO;
+    
+    // ~~ hash password
+    loginUserData.password = cifrarPassword(SendLoginDTO.password);
 
     // login user
     const userTokenResponse = await axiosApi
-      .post<SignInRespDto>("/auth/signin", SendLoginDTO)
+      .post<SignInRespDto>("/auth/signin", loginUserData)
       .then((resp) => resp.data)
       .catch(() => null);
 
@@ -60,12 +62,16 @@ export function useAuth() {
     registerDTO: RegisterDTO
   ): Promise<LoginRecibeDTO | null> => {
     
+    const newUserData: RegisterDTO = registerDTO;
+    
     // ~~ hash password
-    // ~~ registerDTO.Password = cifrarPassword(registerDTO.Password);
+    newUserData.Password = cifrarPassword(registerDTO.Password);
+
+    console.log(registerDTO)
 
     try {
       const userTokenResponse = await axiosApi
-      .post<SignInRespDto>("/auth/signup", registerDTO)
+      .post<SignInRespDto>("/auth/signup", newUserData)
       .then((response) => {
         return response.data;
       })

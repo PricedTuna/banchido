@@ -26,7 +26,7 @@ function LoginInput({
       <label htmlFor={inputType} className="form-label fs-5">
         {inputTitle}
       </label>
-      <div className="input-group mb-3">
+      <div className="input-group mb-2">
       {
           leftAddonIcon ? 
           (<span className="input-group-text" id="leftAddon">

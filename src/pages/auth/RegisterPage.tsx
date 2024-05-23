@@ -12,6 +12,7 @@ import RegisterInputWrap from "../../common/components/AnimatedInputWrap";
 import { motion } from "framer-motion";
 import useDefaultsSwal from "../../common/hooks/useDefaultsSwal";
 import useFormValidator from "../../common/hooks/useFormValidator";
+import PwdTextHelper from "./components/PwdTextHelper";
 
 export interface RegisterErrors {
   Correo: boolean;
@@ -138,6 +139,14 @@ function RegisterPage() {
   const handleOnChange =
     (fieldName: keyof RegisterDTO) =>
     (changeEvent: React.ChangeEvent<HTMLInputElement>) => {
+      
+      if(fieldName === "Password"){
+        let value = changeEvent.currentTarget.value;
+        if (!/^\d*$/.test(value)) {
+          changeEvent.target.value = value.replace(/\D/g, '');
+        }
+      }
+
       setFormValues({ ...formValues, [fieldName]: changeEvent.target.value });
     };
 
@@ -208,6 +217,7 @@ function RegisterPage() {
                   isError={formErrors.Password}
                   value={formValues.Password}
                 />
+                <PwdTextHelper />
               </RegisterInputWrap>
 
               <RegisterInputWrap>

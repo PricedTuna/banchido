@@ -10,6 +10,7 @@ import LoginInput from "./components/LoginInput";
 import { LoginRecibeDTO } from "../../interfaces/DTOS/auth/LoginRecibeDTO";
 import useDefaultsSwal from "../../common/hooks/useDefaultsSwal";
 import useFormValidator from "../../common/hooks/useFormValidator";
+import PwdTextHelper from "./components/PwdTextHelper";
 
 export interface LoginErrors {
   correo: boolean;
@@ -24,7 +25,7 @@ function LoginPage() {
   const { login } = authContext;
   const { loginUser } = useAuth();
   const mySwal = withReactContent(Swal);
-  const {emptyFieldsSwal, wrongEmailSwal, loginSwal, wrongPasswordSwal} = useDefaultsSwal();
+  const {emptyFieldsSwal, wrongEmailSwal, loginSwal, wrongPasswordSwal, userNotFoundError} = useDefaultsSwal();
   const {validateEmail, validatePassword} = useFormValidator();
 
   const [formValues, setFormValues] = useState<SendLoginDTO>({
@@ -103,11 +104,7 @@ function LoginPage() {
       Swal.close(); // Cerrar swals abiertos (loading swal)
     } else {
       Swal.close(); // Cerrar swals abiertos (loading swal)
-      mySwal.fire({
-        title:
-          "Tu cuenta no fue encontrada, verifica tus credenciales o intenta registrarte",
-        icon: "error",
-      });
+      mySwal.fire(userNotFoundError);
     }
   };
 
@@ -130,7 +127,7 @@ function LoginPage() {
             isError={formErrors.correo}
           />
         </div>
-        <div className="mb-1">
+        <div className="mb-2">
           <LoginInput
             handleOnChange={handleOnChange}
             inputNameValue="password"
@@ -139,6 +136,7 @@ function LoginPage() {
             leftAddonIcon="bi bi-lock"
             isError={formErrors.password}
           />
+          <PwdTextHelper />
         </div>
 
         <button className="btn btn-primary" onClick={() => handleLogin()}>

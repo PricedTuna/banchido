@@ -1,4 +1,4 @@
 export interface basicAcountInfoDTO {
-  id : number;
+  id : string;
   numeroCuenta : string;
 }

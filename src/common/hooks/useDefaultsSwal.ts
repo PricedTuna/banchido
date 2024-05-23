@@ -44,6 +44,12 @@ function useDefaultsSwal() {
     icon: "error",
   };
 
+  const userNotFoundError: SweetAlertOptions = {
+    title:
+      "Usuario y/o contrasena incorrectos",
+    icon: "error",
+  }
+
   return {
     wrongEmailSwal,
     emptyFieldsSwal,
@@ -52,7 +58,8 @@ function useDefaultsSwal() {
     wrongPasswordSwal,
     genericErrorSwal,
     passwordExistError,
-    emailExistError
+    emailExistError,
+    userNotFoundError
   };
 }
 
