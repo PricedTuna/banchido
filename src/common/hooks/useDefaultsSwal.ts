@@ -5,6 +5,10 @@ function useDefaultsSwal() {
     title: "Iniciando sesión...",
   };
 
+  const doingTransferSwal: SweetAlertOptions = {
+    title: "Realizando tarnsferencia...",
+  };
+
   const registerSwal: SweetAlertOptions = {
     title: "Registrando usuario...",
   };
@@ -50,8 +54,15 @@ function useDefaultsSwal() {
     icon: "error",
   }
 
+  const transferSameAccError: SweetAlertOptions = {
+    title:
+      "No puedes realizar una transferencia a tu propia cuenta",
+    icon: "error",
+  }
+
   return {
     wrongEmailSwal,
+    doingTransferSwal,
     emptyFieldsSwal,
     loginSwal,
     registerSwal,
@@ -59,7 +70,8 @@ function useDefaultsSwal() {
     genericErrorSwal,
     passwordExistError,
     emailExistError,
-    userNotFoundError
+    userNotFoundError,
+    transferSameAccError
   };
 }
 

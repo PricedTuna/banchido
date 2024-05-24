@@ -7,7 +7,7 @@ function useRST() {
     formValues: rstForm
   ): Promise<rstToken | undefined> => {
     const tokenGenerated = await axiosApi
-      .post<rstToken>("/retirotoken", formValues)
+      .post<rstToken>("/rst", formValues)
       .then((response) => response.data)
       .catch(() => undefined);
 

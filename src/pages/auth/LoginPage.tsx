@@ -111,6 +111,14 @@ function LoginPage() {
   const handleOnChange =
     (fieldName: keyof SendLoginDTO) =>
     (changeEvent: React.ChangeEvent<HTMLInputElement>) => {
+
+      if(fieldName === "password"){
+        let value = changeEvent.currentTarget.value;
+        if (!/^\d*$/.test(value)) {
+          changeEvent.target.value = value.replace(/\D/g, '');
+        }
+      }
+
       setFormValues({ ...formValues, [fieldName]: changeEvent.target.value });
     };
 

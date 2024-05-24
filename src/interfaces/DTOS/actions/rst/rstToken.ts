@@ -1,5 +1,5 @@
 export interface rstToken {
-  token : string;
-  cantidad : number;
-  cuentaId : number;
+  Token : string;
+  Cantidad : number;
+  AccountId : number;
 }

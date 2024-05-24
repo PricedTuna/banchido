@@ -1,5 +1,5 @@
 export interface transferDTO {
-  CuentaDestinoId: string;
-  CuentaOrigenId: string;
+  AccountDestinoiId: string;
+  AccountOrigenId: string;
   Cantidad: number;
 }

@@ -7,6 +7,7 @@ import withReactContent from "sweetalert2-react-content";
 import { useCuentaInfo } from "../../../common/context/AuthContext";
 import Swal from "sweetalert2";
 import useDefaultsSwal from "../../../common/hooks/useDefaultsSwal";
+import { getBasicUserInfoDTO } from "../../../interfaces/DTOS/actions/getBasicUserInfoDTO";
 
 export interface transferFormInterface {
   CuentaDestino: string;
@@ -23,8 +24,9 @@ function TransferenciaActPage() {
     Cantidad: 0,
   });
   
-  const {loginSwal} = useDefaultsSwal();
-  const {getuserByNumAcount, makeTransfer, getAcountByNumAcount} = useTransfer();
+  const {doingTransferSwal, transferSameAccError} = useDefaultsSwal();
+  const [userAccount, setUserAccount] = useState<getBasicUserInfoDTO | null>(null);
+  const {getuserByNumAcount, makeTransfer} = useTransfer();
   const mySwal = withReactContent(Swal);
 
   const handleOnChange =
@@ -51,20 +53,24 @@ function TransferenciaActPage() {
       setUsernameToTransfer("Cuenta no encontrada");
     } else {
       setAbleToTransfer(true);
+      setUserAccount(transferUserInfo);
       setUsernameToTransfer(
-        `${transferUserInfo.nombres} ${transferUserInfo.apellido1} ${transferUserInfo.apellido2}`
+        `${transferUserInfo.user.Nombres} ${transferUserInfo.user.Apellido1} ${transferUserInfo.user.Apellido2}`
       );
     }
   };
 
   const handleTransfer = async () => {
-    mySwal.fire(loginSwal);
+    mySwal.fire(doingTransferSwal);
 
-    const transferCuentaInfo = await getAcountByNumAcount(formValues.CuentaDestino);
+    if(thisCuentaInfo?._id === userAccount?.account._id){
+      mySwal.fire(transferSameAccError);
+      return;
+    }
 
     const makeTransferData: transferDTO = {
-      CuentaOrigenId: (thisCuentaInfo ? thisCuentaInfo._id : ""),
-      CuentaDestinoId: (transferCuentaInfo ? transferCuentaInfo.id : ""),
+      AccountOrigenId: (thisCuentaInfo ? thisCuentaInfo._id : ""),
+      AccountDestinoiId: (userAccount?.account._id ? userAccount?.account._id : ""),
       Cantidad: formValues.Cantidad,
     };
 

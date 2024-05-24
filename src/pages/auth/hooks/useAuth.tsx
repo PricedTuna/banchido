@@ -63,6 +63,8 @@ export function useAuth() {
   ): Promise<LoginRecibeDTO | null> => {
     
     const newUserData: RegisterDTO = registerDTO;
+
+    console.log(newUserData);
     
     // ~~ hash password
     newUserData.Password = cifrarPassword(registerDTO.Password);

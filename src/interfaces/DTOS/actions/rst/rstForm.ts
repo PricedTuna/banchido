@@ -1,4 +1,4 @@
 export interface rstForm {
-  CuentaOrigenId: number,
+  AccountId: string,
   Cantidad: number,
 }

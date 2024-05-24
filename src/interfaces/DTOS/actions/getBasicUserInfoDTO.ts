@@ -1,6 +1,12 @@
 export interface getBasicUserInfoDTO {
-  id:         number;
-  nombres:    string;
-  apellido1:  string;
-  apellido2:  string;
+  user: {
+    _id: string;
+    Nombres: string;
+    Apellido1: string;
+    Apellido2: string;
+  };
+  account: {
+    _id: string;
+    numeroCuenta: string;
+  };
 }

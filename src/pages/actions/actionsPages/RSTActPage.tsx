@@ -13,7 +13,7 @@ function RSTActPage() {
   const sendToLoginLogout = useNotAutorized();
   const generateToken = useRST();
   const [rstForm, setRstForm] = useState<rstForm>({
-    CuentaOrigenId: 0,
+    AccountId: "",
     Cantidad: 0,
   });
   const [token, setToken] = useState("...");
@@ -33,7 +33,7 @@ function RSTActPage() {
         return;
       }
 
-      setRstForm({...rstForm, CuentaOrigenId: thisCuentaInfo._id});
+      setRstForm({...rstForm, AccountId: thisCuentaInfo._id});
       const tokenGenerated = await generateToken(rstForm);
 
       if(tokenGenerated == undefined){
@@ -43,7 +43,7 @@ function RSTActPage() {
           icon: "error"
         })
       } else {
-        setToken(tokenGenerated.token);
+        setToken(tokenGenerated.Token);
         mySwal.fire({
           title: "Token generado",
           icon: "success",
@@ -56,6 +56,14 @@ function RSTActPage() {
   const handleOnChange =
     (fieldName: keyof rstForm) =>
     (changeEvent: React.ChangeEvent<HTMLInputElement>) => {
+
+      if(fieldName === "Cantidad"){
+        let value = changeEvent.currentTarget.value;
+        if (!/^\d*$/.test(value)) {
+          changeEvent.target.value = value.replace(/\D/g, '');
+        }
+      }
+
       setRstForm({ ...rstForm, [fieldName]: changeEvent.target.value });
     };
 
@@ -68,13 +76,13 @@ function RSTActPage() {
             Este codigo puede ser introducido para retirar sin necesidad de
             tener tarjeta física
           </p>
+          {token && <p className="text-center fs-5">Token: {token}</p>}
           <RSTInput
             handleOnChange={handleOnChange}
             inputNameValue="Cantidad"
             inputTitle={`Cantidad a retirar (maximo ${thisCuentaInfo?.Saldo})`}
             inputType="number"
           />
-          <p className="text-center fs-5">Token: {token}</p>
           <button className="btn btn-primary" onClick={handleGenerateToken}>
             Generar token
           </button>
