@@ -27,7 +27,7 @@ function TransferenciaActPage() {
     Cantidad: 0,
   });
   
-  const {doingTransferSwal, transferSameAccError} = useDefaultsSwal();
+  const {doingTransferSwal, transferSameAccError, noCantidadError} = useDefaultsSwal();
   const [userAccount, setUserAccount] = useState<getBasicUserInfoDTO | null>(null);
   const {getuserByNumAcount, makeTransfer} = useTransfer();
   const mySwal = withReactContent(Swal);
@@ -64,17 +64,23 @@ function TransferenciaActPage() {
   };
 
   const handleTransfer = async () => {
+    if(formValues.Cantidad == 0){
+      mySwal.fire(noCantidadError);
+      return;
+    }
+
+    if(thisCuentaInfo?._id === userAccount?.account._id){
+      mySwal.fire(transferSameAccError);
+      return;
+    }
+
     mySwal.fire({...doingTransferSwal,
       didOpen: () => {
         Swal.showLoading();
       },
       });
 
-    if(thisCuentaInfo?._id === userAccount?.account._id){
-      Swal.close()
-      mySwal.fire(transferSameAccError);
-      return;
-    }
+    
 
     const makeTransferData: transferDTO = {
       AccountOrigenId: (thisCuentaInfo ? thisCuentaInfo._id : ""),

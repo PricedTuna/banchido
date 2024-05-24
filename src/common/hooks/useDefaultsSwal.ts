@@ -60,6 +60,12 @@ function useDefaultsSwal() {
     icon: "error",
   }
 
+  const noCantidadError: SweetAlertOptions = {
+    title:
+      "La cantidad no puede ser cero",
+    icon: "error",
+  }
+
   return {
     wrongEmailSwal,
     doingTransferSwal,
@@ -71,7 +77,8 @@ function useDefaultsSwal() {
     passwordExistError,
     emailExistError,
     userNotFoundError,
-    transferSameAccError
+    transferSameAccError,
+    noCantidadError
   };
 }
 

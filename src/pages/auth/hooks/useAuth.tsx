@@ -27,7 +27,11 @@ const staticAcount: Cuenta = {
 export function useAuth() {
   const loginUser = async (
     SendLoginDTO: SendLoginDTO
-  ): Promise<LoginRecibeDTO | null> => {
+  ): Promise<{
+    token: string;
+    UserData?: Usuario | undefined;
+    CuentaData?: Cuenta | undefined;
+  } | null> => {
     // Validate if the user is for test
     if (
       SendLoginDTO.correo == staticUser.Correo &&
@@ -37,11 +41,11 @@ export function useAuth() {
         UserData: staticUser,
         CuentaData: staticAcount,
       };
-      return LoginResopnses;
+      return { ...LoginResopnses, token: "owo" };
     }
 
     const loginUserData: SendLoginDTO = SendLoginDTO;
-    
+
     // ~~ hash password
     loginUserData.password = cifrarPassword(SendLoginDTO.password);
 
@@ -54,46 +58,42 @@ export function useAuth() {
     if (!userTokenResponse) return null;
 
     const LoginResopnse = setUpToken(userTokenResponse);
-
-    return LoginResopnse;
+    return { ...LoginResopnse, token: userTokenResponse.access_token };
   };
 
   const registerUser = async (
     registerDTO: RegisterDTO
-  ): Promise<LoginRecibeDTO | null> => {
-    
+  ): Promise<{
+    token: string;
+    UserData?: Usuario | undefined;
+    CuentaData?: Cuenta | undefined;
+  } | null> => {
     const newUserData: RegisterDTO = registerDTO;
 
-    console.log(newUserData);
-    
     // ~~ hash password
     newUserData.Password = cifrarPassword(registerDTO.Password);
 
-    console.log(registerDTO)
-
     try {
       const userTokenResponse = await axiosApi
-      .post<SignInRespDto>("/auth/signup", newUserData)
-      .then((response) => {
-        return response.data;
-      })
-      .catch(() => null);
+        .post<SignInRespDto>("/auth/signup", newUserData)
+        .then((response) => {
+          return response.data;
+        })
+        .catch(() => null);
 
-    if (!userTokenResponse) return null;
+      if (!userTokenResponse) return null;
 
-    const LoginResopnse = setUpToken(userTokenResponse);
-
-    return LoginResopnse;
+      const LoginResopnse = setUpToken(userTokenResponse);
+      return { ...LoginResopnse, token: userTokenResponse.access_token };
     } catch (error) {
       console.error(error);
     }
-    
-    return null;
 
+    return null;
   };
 
   // ~~ helpers
-  const setUpToken = (token: SignInRespDto ) => {
+  const setUpToken = (token: SignInRespDto) => {
     const tokenParsed = parseJwt(token.access_token);
 
     if (!tokenParsed) return null;
@@ -103,10 +103,10 @@ export function useAuth() {
       CuentaData: tokenParsed.account,
     };
 
-    axiosApi.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    axiosApi.defaults.headers.common = { Authorization: `bearer ${token}` };
 
     return LoginResopnses;
-  }
+  };
 
   return { loginUser, registerUser };
 }

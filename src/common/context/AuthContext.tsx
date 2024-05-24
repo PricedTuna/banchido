@@ -14,6 +14,7 @@ interface AuthState {
   isLoggedIn: boolean;
   userData?: Usuario;
   cuentaData?: Cuenta;
+  token?: string;
 }
 
 export const enum REDUCER_ACTION_TYPE {
@@ -27,6 +28,7 @@ type Action = {
   type: REDUCER_ACTION_TYPE;
   userData?: Usuario;
   cuentaData?: Cuenta;
+  token?: string;
 };
 
 // estado inicial (STATE)
@@ -57,6 +59,7 @@ const authReducer = (state: AuthState, action: Action): AuthState => {
         isLoggedIn: true,
         userData: action.userData,
         cuentaData: action.cuentaData,
+        token: action.token,
       };
     case REDUCER_ACTION_TYPE.LOGOUT:
       return {
@@ -77,11 +80,12 @@ const authReducer = (state: AuthState, action: Action): AuthState => {
 const useAuthContext = (initState: AuthState) => {
   const [state, dispatch] = useReducer(authReducer, initState);
 
-  const login = useCallback((UsuarioLogin: LoginRecibeDTO) => {
+  const login = useCallback((UsuarioLogin: LoginRecibeDTO, token: string) => {
     dispatch({
       type: REDUCER_ACTION_TYPE.LOGIN,
       cuentaData: UsuarioLogin.CuentaData,
       userData: UsuarioLogin.UserData,
+      token: token,
     });
   }, []);
 
@@ -163,6 +167,12 @@ export const useCuentaInfo = (): Cuenta | undefined => {
   if (cuentaData === undefined) return undefined;
 
   return cuentaData;
+}
+
+export const useAuthToken = () => {
+  const {state: {token}} = useContext(AuthContext);
+
+  return token;
 }
 
 export { AuthContext, AuthProvider };

@@ -68,9 +68,6 @@ function EditarPerfilActPage() {
         Swal.showLoading();
       },
     });
-
-    console.log("Se va a editar el perfil para agregar: ")
-    console.log(formValues);
   }
 
   const handleOnChange =

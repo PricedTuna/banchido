@@ -7,10 +7,11 @@ import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import AuthContainer from "./components/AuthContainer";
 import LoginInput from "./components/LoginInput";
-import { LoginRecibeDTO } from "../../interfaces/DTOS/auth/LoginRecibeDTO";
 import useDefaultsSwal from "../../common/hooks/useDefaultsSwal";
 import useFormValidator from "../../common/hooks/useFormValidator";
 import PwdTextHelper from "./components/PwdTextHelper";
+import { Usuario } from "../../interfaces/models/Usuario";
+import { Cuenta } from "../../interfaces/models/Cuenta";
 
 export interface LoginErrors {
   correo: boolean;
@@ -25,8 +26,14 @@ function LoginPage() {
   const { login } = authContext;
   const { loginUser } = useAuth();
   const mySwal = withReactContent(Swal);
-  const {emptyFieldsSwal, wrongEmailSwal, loginSwal, wrongPasswordSwal, userNotFoundError} = useDefaultsSwal();
-  const {validateEmail, validatePassword} = useFormValidator();
+  const {
+    emptyFieldsSwal,
+    wrongEmailSwal,
+    loginSwal,
+    wrongPasswordSwal,
+    userNotFoundError,
+  } = useDefaultsSwal();
+  const { validateEmail, validatePassword } = useFormValidator();
 
   const [formValues, setFormValues] = useState<SendLoginDTO>({
     correo: "",
@@ -39,8 +46,6 @@ function LoginPage() {
   });
 
   const validateLoginForm = (): boolean => {
-    
-
     if (formValues.correo == "" || formValues.password == "") {
       mySwal.fire(emptyFieldsSwal);
 
@@ -67,7 +72,7 @@ function LoginPage() {
       setFormErrors((prevErrors) => ({
         ...prevErrors,
         correo: true, // Marca el campo como con error
-        password: false
+        password: false,
       }));
       return false;
     }
@@ -77,7 +82,7 @@ function LoginPage() {
 
       setFormErrors((prevErrors) => ({
         ...prevErrors,
-        password: true
+        password: true,
       }));
       return false;
     }
@@ -91,15 +96,19 @@ function LoginPage() {
 
     mySwal.fire({
       ...loginSwal,
-    didOpen: () => {
-      Swal.showLoading();
-    },
+      didOpen: () => {
+        Swal.showLoading();
+      },
     });
 
-    const UsuarioRecibido: LoginRecibeDTO | null = await loginUser(formValues);
+    const UsuarioRecibido: {
+      token: string;
+      UserData?: Usuario | undefined;
+      CuentaData?: Cuenta | undefined;
+    } | null = await loginUser(formValues);
 
-    if (UsuarioRecibido) {
-      login(UsuarioRecibido);
+    if (UsuarioRecibido && UsuarioRecibido.CuentaData && UsuarioRecibido.UserData && UsuarioRecibido.token) {
+      login({CuentaData: UsuarioRecibido.CuentaData, UserData: UsuarioRecibido.UserData}, UsuarioRecibido.token);
       navigate("/home");
       Swal.close(); // Cerrar swals abiertos (loading swal)
     } else {
@@ -111,11 +120,10 @@ function LoginPage() {
   const handleOnChange =
     (fieldName: keyof SendLoginDTO) =>
     (changeEvent: React.ChangeEvent<HTMLInputElement>) => {
-
-      if(fieldName === "password"){
+      if (fieldName === "password") {
         let value = changeEvent.currentTarget.value;
         if (!/^\d*$/.test(value)) {
-          changeEvent.target.value = value.replace(/\D/g, '');
+          changeEvent.target.value = value.replace(/\D/g, "");
         }
       }
 

@@ -125,13 +125,13 @@ function RegisterPage() {
 
     const UsuarioRecibido = await registerUser(formValues);
 
-    if (UsuarioRecibido) {
-      login(UsuarioRecibido);
+    if (UsuarioRecibido && UsuarioRecibido.CuentaData && UsuarioRecibido.UserData && UsuarioRecibido.token) {
+      login({CuentaData: UsuarioRecibido.CuentaData, UserData: UsuarioRecibido.UserData}, UsuarioRecibido.token);
       navigate("/home");
       Swal.close(); // Cerrar swals abiertos (loading swal)
     } else {
       Swal.close(); // Cerrar swals abiertos (loading swal)
-      console.error("Verifica tus chingaderas"); // !
+      console.error("No usuario recibido"); // !
       mySwal.fire(genericErrorSwal);
     }
   };

@@ -7,8 +7,11 @@ import RSTInput from "../components/RSTInput";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import useRST from "../hooks/useRST";
+import useDefaultsSwal from "../../../common/hooks/useDefaultsSwal";
 
 function RSTActPage() {
+
+  const {noCantidadError} = useDefaultsSwal()
   const thisCuentaInfo = useCuentaInfo();
   const sendToLoginLogout = useNotAutorized();
   const generateToken = useRST();
@@ -23,6 +26,11 @@ function RSTActPage() {
     if (thisCuentaInfo === undefined) {
       sendToLoginLogout();
     } else {
+
+      if(thisCuentaInfo.Saldo == 0 || rstForm.Cantidad == 0){
+        mySwal.fire(noCantidadError)
+        return;
+      }
       
       if(thisCuentaInfo.Saldo < rstForm.Cantidad){
         mySwal.fire({
@@ -33,8 +41,8 @@ function RSTActPage() {
         return;
       }
 
-      setRstForm({...rstForm, AccountId: thisCuentaInfo._id});
-      const tokenGenerated = await generateToken(rstForm);
+      
+      const tokenGenerated = await generateToken({...rstForm, AccountId: thisCuentaInfo._id});
 
       if(tokenGenerated == undefined){
         mySwal.fire({
