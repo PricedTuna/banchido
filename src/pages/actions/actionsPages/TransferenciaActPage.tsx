@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import ActionsPageWrapper from "../components/ActionsPageWrapper";
 import ActionInput from "../components/ActionInput";
 import useTransfer from "../hooks/useTransfer";
 import { transferDTO } from "../../../interfaces/DTOS/actions/transfer/transferDTO";
 import withReactContent from "sweetalert2-react-content";
-import { useCuentaInfo } from "../../../common/context/AuthContext";
+import { AuthContext, useCuentaInfo } from "../../../common/context/AuthContext";
 import Swal from "sweetalert2";
 import useDefaultsSwal from "../../../common/hooks/useDefaultsSwal";
 import { getBasicUserInfoDTO } from "../../../interfaces/DTOS/actions/getBasicUserInfoDTO";
+import { Cuenta } from "../../../interfaces/models/Cuenta";
 
 export interface transferFormInterface {
   CuentaDestino: string;
@@ -17,6 +18,8 @@ export interface transferFormInterface {
 function TransferenciaActPage() {
   const thisCuentaInfo = useCuentaInfo();
   
+  const authContext = useContext(AuthContext);
+  const { patchAccData } = authContext;
   const [ableToTransfer, setAbleToTransfer] = useState(false)
   const [userName, setUsernameToTransfer] = useState<string>("click en buscar...");
   const [formValues, setFormValues] = useState<transferFormInterface>({
@@ -61,9 +64,14 @@ function TransferenciaActPage() {
   };
 
   const handleTransfer = async () => {
-    mySwal.fire(doingTransferSwal);
+    mySwal.fire({...doingTransferSwal,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+      });
 
     if(thisCuentaInfo?._id === userAccount?.account._id){
+      Swal.close()
       mySwal.fire(transferSameAccError);
       return;
     }
@@ -84,10 +92,21 @@ function TransferenciaActPage() {
         icon: "error"
       })
     } else {
+
+      if(thisCuentaInfo){
+
+        const accData: Cuenta = {
+          ...thisCuentaInfo,
+         Saldo: thisCuentaInfo.Saldo - formValues.Cantidad,
+        }
+
+        patchAccData(accData);
+
+      }
       mySwal.fire({
         title: "Transferencia realizada",
         icon: "success",
-        timer: 5000
+        timer: 4000
       })
     }
   };

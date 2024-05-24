@@ -76,7 +76,7 @@ function RSTActPage() {
             Este codigo puede ser introducido para retirar sin necesidad de
             tener tarjeta física
           </p>
-          {token && <p className="text-center fs-5">Token: {token}</p>}
+          {token !== "..." && <p className="text-center fs-5">Token: {token}</p>}
           <RSTInput
             handleOnChange={handleOnChange}
             inputNameValue="Cantidad"

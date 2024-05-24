@@ -19,6 +19,7 @@ interface AuthState {
 export const enum REDUCER_ACTION_TYPE {
   LOGIN,
   LOGOUT,
+  PATCH_CUENTA,
 }
 
 // Acciones del dispatch
@@ -62,6 +63,11 @@ const authReducer = (state: AuthState, action: Action): AuthState => {
         ...state,
         isLoggedIn: false,
       };
+    case REDUCER_ACTION_TYPE.PATCH_CUENTA:
+      return {
+        ...state,
+        cuentaData: action.cuentaData,
+      };
     default:
       return state;
   }
@@ -79,13 +85,20 @@ const useAuthContext = (initState: AuthState) => {
     });
   }, []);
 
+  const patchAccData = useCallback((cuentaData: Cuenta) => {
+    dispatch({
+      type: REDUCER_ACTION_TYPE.PATCH_CUENTA,
+      cuentaData: cuentaData,
+    });
+  }, []);
+
   const logout = useCallback(() => {
     dispatch({
       type: REDUCER_ACTION_TYPE.LOGOUT,
     });
   }, []);
 
-  return { state, login, logout };
+  return { state, login, logout, patchAccData };
 };
 
 type UseAuthContextType = ReturnType<typeof useAuthContext>;
@@ -93,6 +106,7 @@ type UseAuthContextType = ReturnType<typeof useAuthContext>;
 const initContextState: UseAuthContextType = {
   state: initialState,
   login: () => {},
+  patchAccData: () => {},
   logout: () => {},
 };
 
