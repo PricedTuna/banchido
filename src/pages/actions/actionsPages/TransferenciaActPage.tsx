@@ -6,10 +6,11 @@ import { transferDTO } from "../../../interfaces/DTOS/actions/transfer/transferD
 import withReactContent from "sweetalert2-react-content";
 import { useCuentaInfo } from "../../../common/context/AuthContext";
 import Swal from "sweetalert2";
+import useDefaultsSwal from "../../../common/hooks/useDefaultsSwal";
 
 export interface transferFormInterface {
-  cuentaDestino: string;
-  cantidad: number;
+  CuentaDestino: string;
+  Cantidad: number;
 }
 
 function TransferenciaActPage() {
@@ -18,10 +19,11 @@ function TransferenciaActPage() {
   const [ableToTransfer, setAbleToTransfer] = useState(false)
   const [userName, setUsernameToTransfer] = useState<string>("click en buscar...");
   const [formValues, setFormValues] = useState<transferFormInterface>({
-    cuentaDestino: "",
-    cantidad: 0,
+    CuentaDestino: "",
+    Cantidad: 0,
   });
   
+  const {loginSwal} = useDefaultsSwal();
   const {getuserByNumAcount, makeTransfer, getAcountByNumAcount} = useTransfer();
   const mySwal = withReactContent(Swal);
 
@@ -29,7 +31,7 @@ function TransferenciaActPage() {
     (fieldName: keyof transferFormInterface) =>
     (changeEvent: React.ChangeEvent<HTMLInputElement>) => {
 
-      if(fieldName == 'cuentaDestino'){
+      if(fieldName == 'CuentaDestino'){
         setAbleToTransfer(false);
         setUsernameToTransfer("...");
       }
@@ -43,7 +45,7 @@ function TransferenciaActPage() {
     };
 
   const handleClickSearch = async () => {
-    const transferUserInfo = await getuserByNumAcount(formValues.cuentaDestino);
+    const transferUserInfo = await getuserByNumAcount(formValues.CuentaDestino);
 
     if (transferUserInfo == undefined) {
       setUsernameToTransfer("Cuenta no encontrada");
@@ -56,19 +58,14 @@ function TransferenciaActPage() {
   };
 
   const handleTransfer = async () => {
-    mySwal.fire({ // transferSwal
-      title: "Iniciando sesión...",
-      didOpen: () => {
-        Swal.showLoading();
-      },
-    });
+    mySwal.fire(loginSwal);
 
-    const transferCuentaInfo = await getAcountByNumAcount(formValues.cuentaDestino);
+    const transferCuentaInfo = await getAcountByNumAcount(formValues.CuentaDestino);
 
     const makeTransferData: transferDTO = {
       CuentaOrigenId: (thisCuentaInfo ? thisCuentaInfo._id : ""),
       CuentaDestinoId: (transferCuentaInfo ? transferCuentaInfo.id : ""),
-      Cantidad: formValues.cantidad,
+      Cantidad: formValues.Cantidad,
     };
 
     const transferCodeResult = await makeTransfer(makeTransferData);
@@ -97,13 +94,13 @@ function TransferenciaActPage() {
           <ActionInput
             inputType="text"
             inputTitle="Cantidad a transferir"
-            inputNameValue="cantidad"
+            inputNameValue="Cantidad"
             handleOnChange={handleOnChange}
           />
           <ActionInput
             inputType="text"
             inputTitle="Cuenta a transferir"
-            inputNameValue="cuentaDestino"
+            inputNameValue="CuentaDestino"
             handleOnChange={handleOnChange}
           />
           <button className="btn btn-primary" onClick={handleClickSearch}>

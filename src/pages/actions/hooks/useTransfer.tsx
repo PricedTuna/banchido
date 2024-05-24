@@ -19,8 +19,8 @@ function useTransfer() {
     numeroCuenta: string
   ): Promise<getBasicUserInfoDTO | undefined> => {
     const basicUserInfo = await axiosApi
-      .get<getBasicUserInfoDTO>("/Cuenta/useracount", {
-        params: { NumeroCuenta: numeroCuenta },
+      .get<getBasicUserInfoDTO>("/account/account-by-num", {
+        params: { accountNum: numeroCuenta },
       })
       .then((response) => response.data)
       .catch(() => undefined);
