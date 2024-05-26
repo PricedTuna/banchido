@@ -257,7 +257,7 @@ function RegisterPage() {
             ¿Ya tienes una cuenta?{" "}
             <Link
               to="../login"
-              className="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover fs-6"
+              className="link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover fs-6 loginLinkClassclear"
             >
               Inicia sesión
             </Link>

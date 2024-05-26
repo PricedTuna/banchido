@@ -48,7 +48,7 @@ function EditarPerfilActPage() {
 
     if (!emailPattern.test(formValues.correo)) {
       mySwal.fire({
-        title: "Verifica la sintaxys de tu correo",
+        title: "Verifica la sintaxis de tu correo",
         icon: "error",
       });
       setFormErrors({ ...formErrors, correo: true, password: false });

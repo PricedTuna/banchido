@@ -156,15 +156,15 @@ function LoginPage() {
         </div>
 
         <button className="btn btn-primary" onClick={() => handleLogin()}>
-          Iniciar sesion
+          Iniciar sesión
         </button>
         <p className="mt-1">
           ¿No tienes una cuenta?{" "}
           <Link
             to="../register"
-            className="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover fs-6"
+            className="link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover fs-6 loginLinkClassclear"
           >
-            registrate aqui
+            Regístrate aquí
           </Link>
         </p>
       </div>

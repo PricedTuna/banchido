@@ -6,7 +6,7 @@ function useDefaultsSwal() {
   };
 
   const doingTransferSwal: SweetAlertOptions = {
-    title: "Realizando tarnsferencia...",
+    title: "Realizando transferencia...",
   };
 
   const registerSwal: SweetAlertOptions = {
@@ -20,37 +20,37 @@ function useDefaultsSwal() {
   };
 
   const wrongPasswordSwal: SweetAlertOptions = {
-    title: "Formato de contrasena incorrecta",
-    text: "La contrasena debe de tener 4 digitos numericos",
+    title: "Formato de contraseña incorrecta",
+    text: "La contraseña debe de tener 4 dígitos numéricos",
     icon: "error",
   };
 
   const emptyFieldsSwal: SweetAlertOptions = {
-    title: "Ningun campo puede estar vacio",
+    title: "Ningún campo puede estar vacío",
     icon: "error",
   };
 
   const genericErrorSwal: SweetAlertOptions = {
-    title: "Sucedió un error, intentalo mas tarde",
-    text: "Si el problema persiste contacte al empleado mas cercano",
+    title: "Sucedió un error, inténtalo más tarde",
+    text: "Si el problema persiste, contacte al empleado más cercano",
     icon: "error",
   };
 
   const passwordExistError: SweetAlertOptions = {
-    title: "La contrasena ingresada ya existe",
-    text: "Cambie a una contrasena unica por favor",
+    title: "La contraseña ingresada ya existe",
+    text: "Cambie a una contraseña única, por favor",
     icon: "error",
   };
 
   const emailExistError: SweetAlertOptions = {
-    title: "El email ingresado ya existe",
-    text: "Cambie a una email unico por favor",
+    title: "El correo ingresado ya existe",
+    text: "Cambie a un correo único, por favor",
     icon: "error",
   };
 
   const userNotFoundError: SweetAlertOptions = {
     title:
-      "Usuario y/o contrasena incorrectos",
+      "Usuario y/o contraseña incorrectos",
     icon: "error",
   }
 
