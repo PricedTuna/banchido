@@ -38,3 +38,12 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
 .loginLinkClass {
   color: var(--primary-color) !important;
 }
+
+
+.ladingHeroBg {
+  /* background: rgb(54,144,58);
+  background: linear-gradient(140deg, rgba(54,144,58,1) 0%, rgba(76,175,80,1) 54%, rgba(113,209,116,1) 100%); */
+
+  background: rgb(76,175,80);
+  background: linear-gradient(180deg, rgba(76,175,80,1) 0%, rgba(76,175,80,1) 88%, rgba(146,215,148,1) 95%, rgba(255,255,255,1) 100%);
+}
