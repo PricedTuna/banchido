@@ -11,6 +11,7 @@ import AddCardActPage from "../pages/actions/actionsPages/AddCardActPage";
 import HistorialPage from "../pages/historial/HistorialPage";
 import RegisterPage from "../pages/auth/RegisterPage";
 import { AuthProvider, initialState } from "../common/context/AuthContext";
+import LandingPage from "../pages/landing/LandingPage";
 
 const baseURL = ""; // Local
 
@@ -18,7 +19,7 @@ const router = createBrowserRouter([
 
   {
     path: baseURL,
-    element: <LoginPage />,
+    element: <LandingPage />,
   },
   {
     path: baseURL+"/login",
