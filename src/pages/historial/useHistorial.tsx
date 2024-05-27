@@ -11,6 +11,7 @@ function useHistorial() {
     transfOrigen: [],
     transDest: [],
     retiros: [],
+    retirosRST: [],
   });
 
   useEffect(() => {
@@ -37,16 +38,25 @@ function useHistorial() {
           }
         );
 
-        const [transferOrigenResponse, transferDestinoResponse, retirosResponse] = await Promise.all([
+        const retirosRSTPromise = axiosApi.get(
+          "rst/account/" + thisCuentaInfo?._id,
+          {
+            headers: { Authorization: `Bearer ${authToken}` },
+          }
+        );
+
+        const [transferOrigenResponse, transferDestinoResponse, retirosResponse, retirosRSTResponse] = await Promise.all([
           transferOrigenPromise,
           transferDestinoPromise,
           retirosPromise,
+          retirosRSTPromise
         ]);
 
         setHistorial({
           transfOrigen: transferOrigenResponse.data || [],
           transDest: transferDestinoResponse.data || [],
           retiros: retirosResponse.data || [],
+          retirosRST: retirosRSTResponse.data || [],
         });
       } catch (error) {
         console.error("Error fetching historial data:", error);
@@ -55,6 +65,7 @@ function useHistorial() {
           transfOrigen: [],
           transDest: [],
           retiros: [],
+          retirosRST: [],
         });
       }
     };

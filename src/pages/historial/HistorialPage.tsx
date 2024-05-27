@@ -5,6 +5,7 @@ export interface MovimientosInterface {
   retiros: RetiroInterface[];
   transfOrigen: TransferInterface[];
   transDest: TransferInterface[];
+  retirosRST: TransferInterface[];
 }
 
 export interface RetiroInterface {
@@ -19,7 +20,7 @@ export interface TransferInterface {
 }
 
 function HistorialPage() {
-  const { transDest, transfOrigen, retiros } = useHistorial();
+  const { transDest, transfOrigen, retiros, retirosRST } = useHistorial();
 
   return (
     <div
@@ -70,6 +71,20 @@ function HistorialPage() {
             ))
           ) : (
             <p className="fs-4">Aún no hay retiros</p>
+          )}
+        </div>
+        <div className="my-3 py-3">
+          <h4 className="fs-3">Retiros sin tarjeta</h4>
+          {retirosRST.length > 0 ? (
+            retirosRST.map((retiro) => (
+              <HistorialItem
+                concepto="Retiro sin tarjeta"
+                cantidad={retiro.Cantidad}
+                isIngreso
+              />
+            ))
+          ) : (
+            <p className="fs-4">Aún no hay retiros sin tarjeta</p>
           )}
         </div>
       </div>
