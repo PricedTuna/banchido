@@ -19,6 +19,7 @@ export interface transferFormInterface {
 function TransferenciaActPage() {
   const thisCuentaInfo = useCuentaInfo();
   
+  const thisAccountInfo = useCuentaInfo()
   const authContext = useContext(AuthContext);
   const { patchAccData } = authContext;
   const [ableToTransfer, setAbleToTransfer] = useState(false)
@@ -68,6 +69,19 @@ function TransferenciaActPage() {
   const handleTransfer = async () => {
     if(formValues.Cantidad == 0){
       mySwal.fire(noCantidadError);
+      return;
+    }
+
+    if(!thisAccountInfo){
+      return;
+    }
+
+    if(formValues.Cantidad > thisAccountInfo.Saldo){
+      mySwal.fire({
+        title: "Error en cantidad",
+        text: "No puedes transferir mas cantidad de la que hay en tu cuenta",
+        icon: "error"
+      });
       return;
     }
 
