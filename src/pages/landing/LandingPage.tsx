@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function LandingPage() {
   return (
     <div
@@ -23,6 +25,11 @@ function LandingPage() {
       </div>
       <div>
         <h4>Salon: 2-03</h4>
+      </div>
+      <div>
+        <button>
+          <Link to="/login">Login</Link>
+        </button>
       </div>
     </div>
   );
