@@ -162,7 +162,7 @@ function LoginPage() {
           ¿No tienes una cuenta?{" "}
           <Link
             to="../register"
-            className="link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover fs-6 loginLinkClassclear"
+            className="link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover fs-6 loginLinkClass"
           >
             Regístrate aquí
           </Link>

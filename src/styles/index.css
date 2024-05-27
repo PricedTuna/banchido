@@ -1,5 +1,6 @@
 :root {
   --primary-color: #4CAF50; /* Verde suave */
+  --dark-color: #2d7130; /* Verde suave */
   --border-color: #81C784; /* Verde claro para los bordes */
   --bg-color: #E8F5E9; /* Verde muy claro para el fondo */
 }
@@ -16,6 +17,10 @@
 .btn-primary {
   background-color: var(--primary-color) !important;
   border-color: var(--border-color) !important;
+}
+
+.btn-primary:hover {
+  background-color: var(--dark-color) !important;
 }
 
 /* Oculta los botones de incremento y decremento en navegadores que los muestran */

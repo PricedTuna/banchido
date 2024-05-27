@@ -116,7 +116,7 @@ function LandingPage() {
               <p className="text-center fs-2">
                 Forma parte de nuestro proyecto:
               </p>
-              <LoginButton />
+              <LoginButton isMain />
           </div>
             </LandingPresence>
         </div>
