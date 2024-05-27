@@ -43,6 +43,7 @@ function RegisterInput({
           aria-describedby={inputNameValue}
           onChange={handleOnChange(inputNameValue)}
           value={value}
+          style={{textTransform: inputNameValue === "Nombres" || inputNameValue === "Apellido1" || inputNameValue === "Apellido2" ? "capitalize" : "none" }}
         />
         {rightAddonIcon ? (
           <span className="input-group-text" id="rightAddon">

@@ -47,7 +47,7 @@ function RegisterPage() {
     Apellido1: "",
     Apellido2: "",
     Nombres: "",
-    FechaNacimiento: "",
+    FechaNacimiento: "2004-12-29",
   });
 
   const [formErrors, setFormErrors] = useState<RegisterErrors>({
@@ -133,6 +133,10 @@ function RegisterPage() {
       Swal.close(); // Cerrar swals abiertos (loading swal)
       console.error("No usuario recibido"); // !
       mySwal.fire(genericErrorSwal);
+      setFormValues((prevValues) => ({
+        ...prevValues,
+        password: "",
+      }));
     }
   };
 
@@ -154,7 +158,7 @@ function RegisterPage() {
     <AuthContainer>
       <AnimatePresence>
         <div className="container d-flex flex-column">
-          {isVisible && (
+          {!isVisible && (
             <>
               <RegisterInputWrap>
                 <RegisterInput
@@ -193,7 +197,7 @@ function RegisterPage() {
               </RegisterInputWrap>
             </>
           )}
-          {!isVisible && (
+          {isVisible && (
             <>
               <RegisterInputWrap>
                 <RegisterInput
