@@ -220,7 +220,7 @@ function RegisterPage() {
                 <PwdTextHelper />
               </RegisterInputWrap>
 
-              <RegisterInputWrap>
+              {/* <RegisterInputWrap>
                 <RegisterInput
                   handleOnChange={handleOnChange}
                   inputNameValue="FechaNacimiento"
@@ -230,7 +230,7 @@ function RegisterPage() {
                   isError={formErrors.FechaNacimiento}
                   value={formValues.FechaNacimiento}
                 />
-              </RegisterInputWrap>
+              </RegisterInputWrap> */}
             </>
           )}
 
