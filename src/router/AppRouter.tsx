@@ -16,7 +16,10 @@ const baseURL = ""; // Local
 
 const router = createBrowserRouter([
 
-
+  {
+    path: baseURL,
+    element: <LoginPage />,
+  },
   {
     path: baseURL+"/login",
     element: <LoginPage />,
