@@ -26,6 +26,7 @@ function LandingPage() {
             Banchido
           </h1>
           <p
+            className="text-center"
             style={{
               fontSize: "2rem",
               color: "white",
@@ -109,16 +110,16 @@ function LandingPage() {
             </div>
           </div>
           <LandingPresence>
-          <div
-            className="d-flex flex-column justify-content-center m-5 p-5 card shadow"
-            style={{ minHeight: "40vh", backgroundColor: "#E8F5E9" }}
-          >
+            <div
+              className="d-flex flex-column justify-content-center m-5 px-3 card shadow"
+              style={{ minHeight: "40vh", backgroundColor: "#E8F5E9" }}
+            >
               <p className="text-center fs-2">
                 Forma parte de nuestro proyecto:
               </p>
               <LoginButton isMain />
-          </div>
-            </LandingPresence>
+            </div>
+          </LandingPresence>
         </div>
       </div>
     </motion.div>
