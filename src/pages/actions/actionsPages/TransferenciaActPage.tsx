@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
 import useDefaultsSwal from "../../../common/hooks/useDefaultsSwal";
 import { getBasicUserInfoDTO } from "../../../interfaces/DTOS/actions/getBasicUserInfoDTO";
 import { Cuenta } from "../../../interfaces/models/Cuenta";
+import { useNavigate } from "react-router-dom";
 
 export interface transferFormInterface {
   CuentaDestino: string;
@@ -21,6 +22,7 @@ function TransferenciaActPage() {
   const authContext = useContext(AuthContext);
   const { patchAccData } = authContext;
   const [ableToTransfer, setAbleToTransfer] = useState(false)
+  const navigate = useNavigate();
   const [userName, setUsernameToTransfer] = useState<string>("click en buscar...");
   const [formValues, setFormValues] = useState<transferFormInterface>({
     CuentaDestino: "",
@@ -78,9 +80,7 @@ function TransferenciaActPage() {
       didOpen: () => {
         Swal.showLoading();
       },
-      });
-
-    
+      });    
 
     const makeTransferData: transferDTO = {
       AccountOrigenId: (thisCuentaInfo ? thisCuentaInfo._id : ""),
@@ -114,6 +114,7 @@ function TransferenciaActPage() {
         icon: "success",
         timer: 4000
       })
+      navigate('/home');
     }
   };
 
@@ -121,7 +122,7 @@ function TransferenciaActPage() {
     <ActionsPageWrapper>
       <h1>Transferencia</h1>
       <div>
-        <div style={{minWidth: "3rem"}} className="d-flex flex-column mb-4">
+      <div style={{minWidth: "3rem", maxWidth: "28rem"}} className="d-flex flex-column mb-4">
           <ActionInput
             inputType="text"
             inputTitle="Cantidad a transferir"

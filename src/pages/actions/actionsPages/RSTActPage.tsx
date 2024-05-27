@@ -11,15 +11,16 @@ import useDefaultsSwal from "../../../common/hooks/useDefaultsSwal";
 
 function RSTActPage() {
 
-  const {noCantidadError} = useDefaultsSwal()
+  const {noCantidadError} = useDefaultsSwal();
   const thisCuentaInfo = useCuentaInfo();
   const sendToLoginLogout = useNotAutorized();
   const generateToken = useRST();
+  const {tokenGenericError} = useDefaultsSwal();
   const [rstForm, setRstForm] = useState<rstForm>({
     AccountId: "",
     Cantidad: 0,
   });
-  const [token, setToken] = useState("...");
+  const [token, setToken] = useState("");
   const mySwal = withReactContent(Swal);
 
   const handleGenerateToken = async () => {
@@ -45,11 +46,7 @@ function RSTActPage() {
       const tokenGenerated = await generateToken({...rstForm, AccountId: thisCuentaInfo._id});
 
       if(tokenGenerated == undefined){
-        mySwal.fire({
-          title: "Ocurrió un error",
-          text: "No se pudo generar el token, verifica los datos e intentalo de nuevo en unos minutos",
-          icon: "error"
-        })
+        mySwal.fire(tokenGenericError)
       } else {
         setToken(tokenGenerated.Token);
         mySwal.fire({
@@ -79,12 +76,12 @@ function RSTActPage() {
     <ActionsPageWrapper>
       <h1>Retiro sin tarjeta</h1>
       <div>
-        <div className="d-flex flex-column gap-2 mb-4">
+      <div style={{minWidth: "3rem", maxWidth: "28rem"}} className="d-flex flex-column mb-4">
           <p>
             Este codigo puede ser introducido para retirar sin necesidad de
             tener tarjeta física
           </p>
-          {token !== "..." && <p className="text-center fs-5">Token: {token}</p>}
+          {token !== "" && <p className="text-center fs-5">Token: {token}</p>}
           <RSTInput
             handleOnChange={handleOnChange}
             inputNameValue="Cantidad"

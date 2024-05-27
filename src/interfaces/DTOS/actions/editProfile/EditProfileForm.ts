@@ -1,4 +1,4 @@
 export interface EditProfileForm {
-  correo: string,
-  password: string,
+  UserId: string,
+  Correo: string,
 }

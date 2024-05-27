@@ -8,6 +8,7 @@ import {
 import { Usuario } from "../../interfaces/models/Usuario"; 
 import { Cuenta } from "../../interfaces/models/Cuenta"; 
 import { LoginRecibeDTO } from "../../interfaces/DTOS/auth/LoginRecibeDTO"; 
+import { User } from "../../interfaces/DTOS/auth/login/new/AuthJWTInterface";
 
 // Tipo de estado (STATE)
 interface AuthState {
@@ -21,6 +22,7 @@ export const enum REDUCER_ACTION_TYPE {
   LOGIN,
   LOGOUT,
   PATCH_CUENTA,
+  PATCH_USER,
 }
 
 // Acciones del dispatch
@@ -71,6 +73,11 @@ const authReducer = (state: AuthState, action: Action): AuthState => {
         ...state,
         cuentaData: action.cuentaData,
       };
+    case REDUCER_ACTION_TYPE.PATCH_USER:
+      return {
+        ...state,
+        userData: action.userData,
+      };
     default:
       return state;
   }
@@ -96,13 +103,20 @@ const useAuthContext = (initState: AuthState) => {
     });
   }, []);
 
+  const patchUserData = useCallback((userData: User) => {
+    dispatch({
+      type: REDUCER_ACTION_TYPE.PATCH_CUENTA,
+      userData: userData,
+    });
+  }, []);
+
   const logout = useCallback(() => {
     dispatch({
       type: REDUCER_ACTION_TYPE.LOGOUT,
     });
   }, []);
 
-  return { state, login, logout, patchAccData };
+  return { state, login, logout, patchAccData, patchUserData };
 };
 
 type UseAuthContextType = ReturnType<typeof useAuthContext>;
@@ -112,6 +126,7 @@ const initContextState: UseAuthContextType = {
   login: () => {},
   patchAccData: () => {},
   logout: () => {},
+  patchUserData: () => {},
 };
 
 // Creacion del contexto

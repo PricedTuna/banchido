@@ -57,6 +57,8 @@ export function useAuth() {
 
     if (!userTokenResponse) return null;
 
+    console.log(userTokenResponse.access_token) // !
+    
     const LoginResopnse = setUpToken(userTokenResponse);
     return { ...LoginResopnse, token: userTokenResponse.access_token };
   };

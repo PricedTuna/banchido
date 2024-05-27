@@ -66,6 +66,12 @@ function useDefaultsSwal() {
     icon: "error",
   }
 
+  const tokenGenericError: SweetAlertOptions = {
+    title: "Ocurrió un error",
+    text: "No se pudo generar el token, verifica los datos e intentalo de nuevo en unos minutos",
+    icon: "error"
+  }
+
   return {
     wrongEmailSwal,
     doingTransferSwal,
@@ -78,7 +84,8 @@ function useDefaultsSwal() {
     emailExistError,
     userNotFoundError,
     transferSameAccError,
-    noCantidadError
+    noCantidadError,
+    tokenGenericError
   };
 }
 
