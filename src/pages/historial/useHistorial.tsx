@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import { useAuthToken, useCuentaInfo } from "../../common/context/AuthContext";
 import { axiosApi } from "../../config/api/axiosConfig";
+import { MovimientosInterface } from "./HistorialPage";
 
 function useHistorial() {
   const thisCuentaInfo = useCuentaInfo();
   const authToken = useAuthToken();
 
-  const [historial, setHistorial] = useState({
-    transferOrigen: [],
-    transferDestino: [],
+  const [historial, setHistorial] = useState<MovimientosInterface>({
+    transfOrigen: [],
+    transDest: [],
     retiros: [],
   });
 
@@ -43,16 +44,16 @@ function useHistorial() {
         ]);
 
         setHistorial({
-          transferOrigen: transferOrigenResponse.data || [],
-          transferDestino: transferDestinoResponse.data || [],
+          transfOrigen: transferOrigenResponse.data || [],
+          transDest: transferDestinoResponse.data || [],
           retiros: retirosResponse.data || [],
         });
       } catch (error) {
         console.error("Error fetching historial data:", error);
         // Manejo de errores si alguna de las peticiones falla
         setHistorial({
-          transferOrigen: [],
-          transferDestino: [],
+          transfOrigen: [],
+          transDest: [],
           retiros: [],
         });
       }
