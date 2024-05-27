@@ -11,7 +11,7 @@ function useRST() {
   ): Promise<rstToken | undefined> => {
 
     const tokenGenerated = await axiosApi
-      .post<rstToken>("/rst", formValues, {headers: { Authorization: `Bearer ${authToken}` }})
+      .post<rstToken>("/rst", {...formValues, Cantidad: parseInt(formValues.Cantidad.toString())}, {headers: { Authorization: `Bearer ${authToken}` }})
       .then((response) => response.data)
       .catch(() => undefined);
 
