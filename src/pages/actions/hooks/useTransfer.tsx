@@ -4,12 +4,11 @@ import { getBasicUserInfoDTO } from "../../../interfaces/DTOS/actions/getBasicUs
 import { transferDTO } from "../../../interfaces/DTOS/actions/transfer/transferDTO";
 
 function useTransfer() {
+  const authToken = useAuthToken()
+  
   const makeTransfer = async (
     transferData: transferDTO
   ) => {
-
-    const authToken = useAuthToken()
-
     const transferResponseCode = await axiosApi
       .post("/transfer", transferData, {headers: { Authorization: `Bearer ${authToken}` }})
       .then((response) => response.status)
