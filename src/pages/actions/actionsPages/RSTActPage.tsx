@@ -32,6 +32,8 @@ function RSTActPage() {
         mySwal.fire(noCantidadError)
         return;
       }
+
+      
       
       if(thisCuentaInfo.Saldo < rstForm.Cantidad){
         mySwal.fire({
@@ -39,6 +41,14 @@ function RSTActPage() {
           text: "No puedes retirar una cantidad mayor a tu saldo en cuenta",
           icon: "error"
         })
+        return;
+      }
+
+      if(rstForm.Cantidad < 0 || !(rstForm.Cantidad % 100 === 0)){
+        mySwal.fire({
+          title: "La cantidad debe ser múltiplo de 100",
+          icon: "error"
+        });
         return;
       }
 
