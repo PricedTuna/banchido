@@ -72,6 +72,14 @@ function TransferenciaActPage() {
       return;
     }
 
+    if(formValues.Cantidad < 0 || !(formValues.Cantidad % 100 === 0)){
+      mySwal.fire({
+        title: "La cantidad debe ser múltiplo de 100",
+        icon: "error"
+      });
+      return;
+    }
+
     if(!thisAccountInfo){
       return;
     }
